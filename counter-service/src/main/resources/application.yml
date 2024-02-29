@@ -5,6 +5,11 @@ server:
 spring:
   application:
     name: counter-service
+  datasource:
+    driver-class-name:
+    url: jdbc:mysql://localhost:3306/counterdb
+    username: root
+    password: rlaxogjs8312
 
 
 eureka:

@@ -12,10 +12,7 @@ import org.orchestro.userservice.vo.ResponseUser;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +56,13 @@ public class UserController {
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUserByUserId(@PathVariable String userId) {
+        UserDto userDto = userService.getUserByUserId(userId);
+        ResponseUser result = new ModelMapper().map(userDto, ResponseUser.class);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
 }

@@ -7,9 +7,13 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.jpa.UserRepository;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -34,5 +38,14 @@ public class UserService {
 
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();
+    }
+
+    public UserDto getUserByUserId(String userId) {
+        UserEntity userEntity = userRepository.findByUserId(userId);
+        if (userEntity == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+        return userDto;
     }
 }
