@@ -1,11 +1,10 @@
 package org.orchestro.userservice.jpa;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
-@Getter
+@Data
 @Table(name = "user")
 public class UserEntity {
     @Id
@@ -18,7 +17,6 @@ public class UserEntity {
     private String name;
     @Column(nullable = false, unique = true)
     private String userId;
-    @Setter
     @Column(nullable = false, unique = true)
     private String encryptedPwd;
 

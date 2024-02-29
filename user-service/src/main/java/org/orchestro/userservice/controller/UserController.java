@@ -1,6 +1,7 @@
 package org.orchestro.userservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.userservice.dto.UserDto;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -40,6 +42,7 @@ public class UserController {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserDto userDto = mapper.map(user, UserDto.class);
+        log.info("userDto:{}", userDto);
         userService.createUser(userDto);
 
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
