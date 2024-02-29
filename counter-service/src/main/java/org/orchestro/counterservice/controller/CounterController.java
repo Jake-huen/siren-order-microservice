@@ -24,11 +24,11 @@ public class CounterController {
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
         // TODO: store-service에서 주문 커피 정보 가져오기
         RequestedReceiptDto payload = RequestedReceiptDto.builder()
-                .coffeeId()
-                .coffeeName()
-                .qty()
-                .orderId()
-                .createdAt(new Date())
+//                .coffeeId()
+//                .coffeeName()
+//                .qty()
+//                .orderId()
+//                .createdAt(new Date())
                 .build();
 
         kafkaProducer.send(topic, payload);
