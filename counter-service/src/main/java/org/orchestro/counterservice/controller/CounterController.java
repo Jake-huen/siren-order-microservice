@@ -5,12 +5,18 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.orchestro.counterservice.dto.RequestOrderDto;
 import org.orchestro.counterservice.dto.RequestedReceiptDto;
+import org.orchestro.counterservice.dto.ResponseCoffeeDto;
 import org.orchestro.counterservice.kafka.KafkaProducer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -19,6 +25,9 @@ public class CounterController {
 
     private final KafkaProducer kafkaProducer;
     private final String topic = "coffee-store-ordered-events";
+
+    // 커피 목록 조회
+
 
     @PostMapping("/coffee-order")
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
