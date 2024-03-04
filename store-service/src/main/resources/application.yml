@@ -5,6 +5,35 @@ server:
 spring:
   application:
     name: store-service
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+#  datasource:
+#    driver-class-name:
+#    url: jdbc:mysql://localhost:3306/storedb
+#    username: root
+#    password: rlaxogjs8312
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQL8Dialect
+#      show_sql: true
+#      format_sql: true
+#    open-in-view: false
 
 
 eureka:

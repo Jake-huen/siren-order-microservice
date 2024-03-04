@@ -46,6 +46,8 @@ public class UserService {
             throw new UsernameNotFoundException("User not found");
         }
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+        // TODO : counter-service에 요청해서 해당 사용자가 주문한 정보들 가져오기
+
         return userDto;
     }
 }
