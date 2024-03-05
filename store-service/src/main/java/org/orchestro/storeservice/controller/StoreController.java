@@ -30,7 +30,7 @@ public class StoreController {
     }
 
     @GetMapping("/coffee/{coffeeName}")
-    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenu(@RequestParam("coffeeName") String coffeeName) {
+    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenu(@PathVariable("coffeeName") String coffeeName) {
         CoffeeEntity coffeeEntity = storeService.getCoffee(coffeeName);
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -42,4 +42,5 @@ public class StoreController {
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 }

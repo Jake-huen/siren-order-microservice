@@ -7,6 +7,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.jpa.UserRepository;
+import org.orchestro.userservice.vo.ResponseOrder;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

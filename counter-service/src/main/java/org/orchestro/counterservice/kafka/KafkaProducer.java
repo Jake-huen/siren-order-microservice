@@ -6,7 +6,7 @@ import org.orchestro.counterservice.dto.RequestedReceiptDto;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-@Component
+// @Component
 @Slf4j
 @RequiredArgsConstructor
 public class KafkaProducer {

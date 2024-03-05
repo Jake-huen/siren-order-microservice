@@ -1,4 +1,4 @@
-package org.orchestro.storeservice.dto;
+package org.orchestro.counterservice.dto;
 
 import lombok.Data;
 
