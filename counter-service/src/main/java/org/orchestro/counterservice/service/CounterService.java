@@ -35,6 +35,6 @@ public class CounterService {
     }
 
     public Iterable<OrderEntity> getOrdersByUserId(String userId) {
-        return orderRepository.findAll();
+        return orderRepository.findByUserId(userId);
     }
 }

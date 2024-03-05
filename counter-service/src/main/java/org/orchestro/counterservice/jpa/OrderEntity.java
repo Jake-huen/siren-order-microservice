@@ -2,6 +2,7 @@ package org.orchestro.counterservice.jpa;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -25,6 +26,8 @@ public class OrderEntity implements Serializable {
     private Integer unitPrice;
     @Column(nullable = false)
     private Integer totalPrice;
+    @Column(nullable = false)
+    private String orderStatus;
 
     @Column(nullable = false)
     private String userId;
@@ -34,4 +37,18 @@ public class OrderEntity implements Serializable {
     @Column(nullable = false, updatable = false, insertable = false)
     @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdAt;
+
+    public OrderEntity(){}
+
+    @Builder
+    public OrderEntity(String productId, Integer qty, Integer unitPrice, Integer totalPrice,
+                       String userId, String orderId, String orderStatus) {
+        this.productId = productId;
+        this.qty = qty;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.userId = userId;
+        this.orderId = orderId;
+        this.orderStatus = orderStatus;
+    }
 }

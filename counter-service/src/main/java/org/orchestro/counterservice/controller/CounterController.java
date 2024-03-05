@@ -7,7 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.orchestro.counterservice.client.StoreServiceClient;
 import org.orchestro.counterservice.dto.*;
 import org.orchestro.counterservice.jpa.OrderEntity;
-import org.orchestro.counterservice.kafka.KafkaProducer;
+import org.orchestro.counterservice.jpa.OrderRepository;
+import org.orchestro.counterservice.messagequeue.KafkaProducer;
 import org.orchestro.counterservice.service.CounterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,9 @@ public class CounterController {
     private final CounterService counterService;
     private final StoreServiceClient storeServiceClient;
 
-    // private final KafkaProducer kafkaProducer;
-    private final String topic = "coffee-store-ordered-events";
+    private final KafkaProducer kafkaProducer;
+    private final OrderRepository orderRepository;
+
 
     // 사용자 커피 목록 조회
     @GetMapping("/{userId}/orders")
@@ -48,17 +50,44 @@ public class CounterController {
     @PostMapping("/coffee-order")
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
         CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
+
         RequestedReceiptDto payload = RequestedReceiptDto.builder()
                 .coffeeId(coffeeByCoffeeName.getCoffeeId())
                 .coffeeName(coffeeByCoffeeName.getCoffeeName())
-                .qty(coffeeByCoffeeName.getStock())
+                .qty(requestOrderDto.getQty())
                 .orderId(UUID.randomUUID().toString())
                 .createdAt(new Date())
                 .build();
         // 주문 내용 kafka 전달
-        // kafkaProducer.send(topic, payload);
-        log.info("topic: {}", topic);
-        log.info("payload: {}", payload);
-        return "주문을 완료하였습니다.";
+        String topic = "coffee-store-ordered-events";
+        kafkaProducer.send(topic, payload);
+        // DB에 주문 내용 저장
+        Integer totalPrice = coffeeByCoffeeName.getUnitPrice() * requestOrderDto.getQty();
+        OrderEntity orderEntity = OrderEntity.builder()
+                .productId(coffeeByCoffeeName.getCoffeeId())
+                .qty(requestOrderDto.getQty())
+                .unitPrice(coffeeByCoffeeName.getUnitPrice())
+                .totalPrice(totalPrice)
+                .userId(requestOrderDto.getUserId())
+                .orderId(UUID.randomUUID().toString())
+                .orderStatus("PENDING") // 나중에 enum으로 수정
+                .build();
+        orderRepository.save(orderEntity);
+
+        return "주문 정보를 저장하였습니다.";
     }
+
+    // 제조 완료된 커피 DB 업데이트
+    // TODO: Kafka Listener 이용
+
+
+    // 완료된 주문들
+    // @GetMapping("/orders-success")
+
+    // 대기중인 주문들
+    // @GetMapping("/orders-pending")
+
+
+    // 실패한 주문들
+    // @GetMapping("/orders-failed")
 }
