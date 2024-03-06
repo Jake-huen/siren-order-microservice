@@ -1,6 +1,13 @@
 # spring-microservice
 
-![image](https://github.com/Jake-huen/spring-microservice/assets/57055730/c537976b-233f-4e1f-a4ef-c528373b2a1d)
+## 전체 아키텍처 구성
+
+![image](https://github.com/Jake-huen/spring-microservice/assets/57055730/094a5d78-4622-47cb-a586-ac0f2d1d7cdb)
+
+## 배포 계획
+
+![image](https://github.com/Jake-huen/spring-microservice/assets/57055730/43ee4535-a942-47af-903a-c7539e856d68)
+
 
 ## MSA 기술 스택
 
