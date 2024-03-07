@@ -25,8 +25,10 @@ public class KafkaConsumer {
         log.info("요청 수량 : {}", requestedReceiptDto.getQty());
 
         if (coffeeEntity.getStock() < requestedReceiptDto.getQty()) { // 요청 수량이 가진 수량보다 많을 때
+            // TODO: 주문 실패 코드
             System.out.println("수량 부족으로 인한 주문 실패");
         } else if(coffeeEntity.getStock() >= requestedReceiptDto.getQty()) {
+            // TODO : 주문 성공 코드
             System.out.println("주문 성공");
             coffeeEntity.setStock(coffeeEntity.getStock() - requestedReceiptDto.getQty());
             coffeeRepository.save(coffeeEntity);

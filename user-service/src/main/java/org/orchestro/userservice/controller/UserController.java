@@ -47,6 +47,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
+    @PostMapping("/")
+
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getAllUsers() {
         Iterable<UserEntity> userList = userService.getUserByAll();

@@ -10,6 +10,7 @@ import org.orchestro.counterservice.jpa.OrderEntity;
 import org.orchestro.counterservice.jpa.OrderRepository;
 import org.orchestro.counterservice.messagequeue.KafkaProducer;
 import org.orchestro.counterservice.service.CounterService;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,10 +27,10 @@ public class CounterController {
 
     private final CounterService counterService;
     private final StoreServiceClient storeServiceClient;
+    private final Environment env;
 
     private final KafkaProducer kafkaProducer;
     private final OrderRepository orderRepository;
-
 
     // 사용자 커피 목록 조회
     @GetMapping("/{userId}/orders")
@@ -81,13 +82,23 @@ public class CounterController {
     // TODO: Kafka Listener 이용
 
 
-    // 완료된 주문들
+    // 완료된 주문들 조회
     // @GetMapping("/orders-success")
 
-    // 대기중인 주문들
+
+    // 대기중인 주문들 조회
     // @GetMapping("/orders-pending")
 
-
-    // 실패한 주문들
+    // 실패한 주문들 조회
     // @GetMapping("/orders-failed")
+
+
+    @GetMapping("/health_check")
+    public String status() {
+        return String.format("It's Working in User Service"
+                + ", port(local.server.port)=" + env.getProperty("local.server.port")
+                + ", port(server.port)=" + env.getProperty("server.port")
+                + ", token secret=" + env.getProperty("token.secret")
+                + ", token expiration time =" + env.getProperty("token.expiration_time"));
+    }
 }
