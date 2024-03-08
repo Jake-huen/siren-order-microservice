@@ -34,6 +34,19 @@ public class UserController {
                 + ", token expiration time =" + env.getProperty("token.expiration_time"));
     }
 
+    // 전체 사용자 조회
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getAllUsers() {
+        Iterable<UserEntity> userList = userService.getUserByAll();
+        List<ResponseUser> result = new ArrayList<>();
+        userList.forEach(user -> {
+            result.add(new ModelMapper().map(user, ResponseUser.class));
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 회원가입
     @PostMapping("/users")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper();
@@ -47,19 +60,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
-    @PostMapping("/")
+    // 로그인
+    // @PostMapping("/")
 
-    @GetMapping("/users")
-    public ResponseEntity<List<ResponseUser>> getAllUsers() {
-        Iterable<UserEntity> userList = userService.getUserByAll();
-        List<ResponseUser> result = new ArrayList<>();
-        userList.forEach(user -> {
-            result.add(new ModelMapper().map(user, ResponseUser.class));
-        });
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
+    // 사용자 정보, 커피 주문 내역 조회
     @GetMapping("/users/{userId}")
     public ResponseEntity<ResponseUser> getUserByUserId(@PathVariable String userId) {
         UserDto userDto = userService.getUserByUserId(userId);

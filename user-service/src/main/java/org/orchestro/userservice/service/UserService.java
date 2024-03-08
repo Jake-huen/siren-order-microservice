@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.orchestro.userservice.client.CounterServiceClient;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.jpa.UserRepository;
@@ -13,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +24,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CounterServiceClient counterServiceClient;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserDto createUser(UserDto userDto) {
@@ -47,7 +48,9 @@ public class UserService {
             throw new UsernameNotFoundException("User not found");
         }
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
-        // TODO : counter-service에 요청해서 해당 사용자가 주문한 정보들 가져오기
+
+        List<ResponseOrder> userOrders = counterServiceClient.getUserOrders(userId);
+        userDto.setOrders(userOrders);
 
         return userDto;
     }

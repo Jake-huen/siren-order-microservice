@@ -32,23 +32,8 @@ public class CounterController {
     private final KafkaProducer kafkaProducer;
     private final OrderRepository orderRepository;
 
-    // 사용자 커피 목록 조회
-    @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable("userId") String userId) {
-        log.info("Before retrieve orders data");
-        Iterable<OrderEntity> orderList = counterService.getOrdersByUserId(userId);
-
-        List<ResponseOrder> result = new ArrayList<>();
-        orderList.forEach(v -> {
-            result.add(new ModelMapper().map(v, ResponseOrder.class));
-        });
-
-        log.info("After retrieved orders data");
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    // 커피 이름으로 커피 주문
-    @PostMapping("/coffee-order")
+    // 사용자 커피 주문
+    @PostMapping("/orders")
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
         CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
 
@@ -57,6 +42,7 @@ public class CounterController {
                 .coffeeName(coffeeByCoffeeName.getCoffeeName())
                 .qty(requestOrderDto.getQty())
                 .orderId(UUID.randomUUID().toString())
+                .userId(requestOrderDto.getUserId())
                 .createdAt(new Date())
                 .build();
         // 주문 내용 kafka 전달
@@ -81,6 +67,20 @@ public class CounterController {
     // 제조 완료된 커피 DB 업데이트
     // TODO: Kafka Listener 이용
 
+    // 사용자별 커피 주문 내역 조회
+    @GetMapping("/{userId}/orders")
+    public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable("userId") String userId) {
+        log.info("Before retrieve orders data");
+        Iterable<OrderEntity> orderList = counterService.getOrdersByUserId(userId);
+
+        List<ResponseOrder> result = new ArrayList<>();
+        orderList.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseOrder.class));
+        });
+
+        log.info("After retrieved orders data");
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
     // 완료된 주문들 조회
     // @GetMapping("/orders-success")

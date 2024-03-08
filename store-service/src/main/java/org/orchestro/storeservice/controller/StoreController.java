@@ -21,6 +21,7 @@ public class StoreController {
     private final StoreService storeService;
     private final Environment env;
 
+    // 커피 모든 메뉴 조회
     @GetMapping("/coffee")
     public ResponseEntity<List<ResponseCoffeeDto>> getAllCoffeeMenus() {
         Iterable<CoffeeEntity> allCoffees = storeService.getAllCoffees();
@@ -31,6 +32,7 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // 커피 단일 메뉴 조회
     @GetMapping("/coffee/{coffeeName}")
     public ResponseEntity<ResponseCoffeeDto> getCoffeeMenu(@PathVariable("coffeeName") String coffeeName) {
         CoffeeEntity coffeeEntity = storeService.getCoffee(coffeeName);
@@ -38,12 +40,21 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // 커피 메뉴 등록
     @PostMapping("/coffee")
     public ResponseEntity<ResponseCoffeeDto> createCoffee(@RequestBody CoffeeDto coffeeDto) {
         CoffeeEntity coffeeEntity = storeService.createCoffee(coffeeDto);
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    // TODO: 커피 메뉴 수정
+
+    // TODO: 커피 메뉴 삭제
+
+    // TODO : 커피 제조 진행
+    // Kafka Sub
+
 
     // 커피 주문 상태 업데이트 -> TODO: Kafka 사용
     // @PostMapping("/coffee-order-update")
