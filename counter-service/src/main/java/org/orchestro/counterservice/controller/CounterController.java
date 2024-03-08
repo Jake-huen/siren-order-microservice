@@ -26,40 +26,13 @@ import java.util.UUID;
 public class CounterController {
 
     private final CounterService counterService;
-    private final StoreServiceClient storeServiceClient;
-    private final Environment env;
 
-    private final KafkaProducer kafkaProducer;
-    private final OrderRepository orderRepository;
+    private final Environment env;
 
     // 사용자 커피 주문
     @PostMapping("/orders")
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
-        CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
-
-        RequestedReceiptDto payload = RequestedReceiptDto.builder()
-                .coffeeId(coffeeByCoffeeName.getCoffeeId())
-                .coffeeName(coffeeByCoffeeName.getCoffeeName())
-                .qty(requestOrderDto.getQty())
-                .orderId(UUID.randomUUID().toString())
-                .userId(requestOrderDto.getUserId())
-                .createdAt(new Date())
-                .build();
-        // 주문 내용 kafka 전달
-        String topic = "coffee-store-ordered-events";
-        kafkaProducer.send(topic, payload);
-        // DB에 주문 내용 저장
-        Integer totalPrice = coffeeByCoffeeName.getUnitPrice() * requestOrderDto.getQty();
-        OrderEntity orderEntity = OrderEntity.builder()
-                .productId(coffeeByCoffeeName.getCoffeeId())
-                .qty(requestOrderDto.getQty())
-                .unitPrice(coffeeByCoffeeName.getUnitPrice())
-                .totalPrice(totalPrice)
-                .userId(requestOrderDto.getUserId())
-                .orderId(UUID.randomUUID().toString())
-                .orderStatus("PENDING") // 나중에 enum으로 수정
-                .build();
-        orderRepository.save(orderEntity);
+        counterService.orderCoffee(requestOrderDto);
 
         return "주문 정보를 저장하였습니다.";
     }
@@ -83,14 +56,26 @@ public class CounterController {
     }
 
     // 완료된 주문들 조회
-    // @GetMapping("/orders-success")
+    @GetMapping("/orders-success")
+    public ResponseEntity<List<CoffeeOrderStatusDto>> getOrderSuccess() {
+        List<CoffeeOrderStatusDto> successOrder = counterService.getOrderStatus("SUCCESS");
+        return ResponseEntity.status(HttpStatus.OK).body(successOrder);
+    }
 
 
     // 대기중인 주문들 조회
-    // @GetMapping("/orders-pending")
+    @GetMapping("/orders-pending")
+    public ResponseEntity<List<CoffeeOrderStatusDto>> getOrderPending() {
+        List<CoffeeOrderStatusDto> successOrder = counterService.getOrderStatus("PENDING");
+        return ResponseEntity.status(HttpStatus.OK).body(successOrder);
+    }
 
     // 실패한 주문들 조회
-    // @GetMapping("/orders-failed")
+    @GetMapping("/orders-failed")
+    public ResponseEntity<List<CoffeeOrderStatusDto>> getOrderFailed() {
+        List<CoffeeOrderStatusDto> successOrder = counterService.getOrderStatus("FAIL");
+        return ResponseEntity.status(HttpStatus.OK).body(successOrder);
+    }
 
 
     @GetMapping("/health_check")
