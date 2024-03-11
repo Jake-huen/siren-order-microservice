@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Madimi+One&display=swap');
+
+:root {
+  --red: #d01c28;
+  --gray: #2e2e2e;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  font-family: "Madimi One", sans-serif;
+}
+
+button {
+  all: unset;
+  padding: 6px 16px;
+  background: var(--red);
+  height: 32px;
+  color: white;
+  font-weight: 500;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+}
+
+.top-logo {
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 72px;
+  align-items: center;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 24px;
+}
+
+.main-page {
+  display: flex;
+  align-items: center;
+  height: calc(100vh-72px);
+}
+
+.main-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.main-page h1 {
+  font-weight: 600;
+  line-height: 102px;
+  font-size: 50px;
+}
+
+.main-page p {
+  font-weight: 800;
+  color: var(--gray);
+  max-width: 400px;
+}
+
+.order-btn {
+  display: flex;
+  gap: 40px;
+}
+
+.order-btn button {
+  font-size: 24px;
+}
+
+.secondary-btn {
+  background: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray);
+}
+
+.source-code p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.icons {
+  display: flex;
+  gap: 8px;
+}
+
+
+.bottom-icons {
+  height: 60px;
+}
+
+.coffee-image {
+  height: 30vh;
+}
