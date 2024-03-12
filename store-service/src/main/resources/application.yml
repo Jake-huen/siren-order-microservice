@@ -5,6 +5,13 @@ server:
 spring:
   application:
     name: store-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  config:
+    import: classpath:/bootstrap.yml
   h2:
     console:
       enabled: true
@@ -17,9 +24,11 @@ spring:
     show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    password:
 #  datasource:
 #    driver-class-name:
 #    url: jdbc:mysql://localhost:3306/storedb

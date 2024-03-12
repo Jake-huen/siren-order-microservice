@@ -39,8 +39,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
+    // amqp
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
     // feign client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // config-service
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'

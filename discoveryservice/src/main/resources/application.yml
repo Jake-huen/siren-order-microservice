@@ -5,6 +5,10 @@ server:
 spring:
   application:
     name: discoveryservice
+#  cloud:
+#    config:
+#      uri: http://config-server:8888
+#      name: discovery-service
 
 eureka:
   client:

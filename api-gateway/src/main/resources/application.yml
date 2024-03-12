@@ -7,11 +7,18 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka # ??? ? ??
+      defaultZone: http://localhost:8761/eureka
 
 spring:
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  config:
+    import: classpath:/bootstrap.yml
   cloud:
     gateway:
       routes:
@@ -44,5 +51,11 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/store-service(?<segment>.*), /$\{segment}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, busrefresh
+
 token:
   expiration_time: 86400000

@@ -4,28 +4,25 @@ server:
 spring:
   application:
     name: config-service
-#  rabbitmq:
-#    host: 127.0.0.1
-#    port: 5672
-#    username: guest
-#    password: guest
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   config:
     import: classpath:/bootstrap.yml
-  profiles:
-    active: native
+#  profiles:
+#    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: file://${user.home}/Desktop/native-file-repo
-#          git:
-#            uri: https://github.com/Jake-huen/spring-cloud-config # file:///Users/kimtaeheon/Desktop/git-local-repo
-            # private repository
-            #username: Jake-huen
-            #password:
+        git:
+          uri: https://github.com/Jake-huen/spring-cloud-config
+          username: Jake-huen
+          password: rlaxogjs8312@
 
 management:
   endpoints:
     web:
       exposure:
-        include: health, busrefresh
+        include: refresh, health, beans, httptrace, busrefresh

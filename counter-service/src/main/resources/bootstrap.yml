@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888
+      name: counter-service
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          refresh, health, beans, busrefresh

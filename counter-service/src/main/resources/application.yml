@@ -5,11 +5,18 @@ server:
 spring:
   application:
     name: counter-service
-  datasource:
-    driver-class-name:
-    url: jdbc:mysql://localhost:3306/counterdb
-    username: root
-    password: rlaxogjs8312
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  config:
+    import: classpath:/bootstrap.yml
+#  datasource:
+#    driver-class-name:
+#    url: jdbc:mysql://localhost:3306/counterdb
+#    username: root
+#    password: rlaxogjs8312
   jpa:
     hibernate:
       ddl-auto: create
