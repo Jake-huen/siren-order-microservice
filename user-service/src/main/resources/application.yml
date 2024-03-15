@@ -1,5 +1,5 @@
 server:
-  port: 46279
+  port: 8080
 
 spring:
   application:
@@ -23,7 +23,7 @@ eureka:
   # home-page-url: http://10.100.225.34
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
     prefer-ip-address: true
-    ip-address: 10.104.193.23
+    ip-address: 10.104.193.23 # user-service? ClusterIP ??
   client:
     register-with-eureka: true
     fetch-registry: true
