@@ -5,7 +5,7 @@ spring:
   application:
     name: config-service
   rabbitmq:
-    host: 127.0.0.1
+    host: 172.10.40.152
     port: 5672
     username: guest
     password: guest
@@ -13,6 +13,11 @@ spring:
     import: classpath:/bootstrap.yml
 #  profiles:
 #    active: native
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          search-locations: file://${user.home}/Desktop/native-file-repo #file://root/native-file-repo
   cloud:
     config:
       server:

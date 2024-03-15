@@ -6,12 +6,12 @@ spring:
   application:
     name: store-service
   rabbitmq:
-    host: 127.0.0.1
+    host: 172.10.40.152
     port: 5672
     username: guest
     password: guest
-  config:
-    import: classpath:/bootstrap.yml
+#  config:
+#    import: classpath:/bootstrap.yml
   h2:
     console:
       enabled: true
