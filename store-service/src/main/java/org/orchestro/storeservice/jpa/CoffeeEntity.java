@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.orchestro.storeservice.dto.CoffeeEditDto;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Data
@@ -42,5 +44,11 @@ public class CoffeeEntity {
         this.stock = stock;
         this.unitPrice = unitPrice;
         this.coffeeBrewTime = coffeeBrewTime;
+    }
+
+    public void update(CoffeeEditDto coffeeEditDto) {
+        Optional.ofNullable(coffeeEditDto.getCoffeeName()).ifPresent(name -> this.coffeeName = name);
+        Optional.ofNullable(coffeeEditDto.getUnitPrice()).ifPresent(price -> this.unitPrice = price);
+        Optional.ofNullable(coffeeEditDto.getCoffeeBrewTime()).ifPresent(brewTime -> this.coffeeBrewTime = brewTime);
     }
 }

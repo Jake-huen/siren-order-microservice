@@ -3,6 +3,7 @@ package org.orchestro.storeservice.controller;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.orchestro.storeservice.dto.CoffeeDto;
+import org.orchestro.storeservice.dto.CoffeeEditDto;
 import org.orchestro.storeservice.dto.ResponseCoffeeDto;
 import org.orchestro.storeservice.jpa.CoffeeEntity;
 import org.orchestro.storeservice.service.StoreService;
@@ -33,8 +34,16 @@ public class StoreController {
     }
 
     // 커피 단일 메뉴 조회
+    @GetMapping("/coffee/{coffeeId}")
+    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenuById(@PathVariable("coffeeId") String coffeeId) {
+        CoffeeEntity coffeeEntity = storeService.getCoffeeByCoffeeId(coffeeId);
+        ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    // 커피 단일 메뉴 조회
     @GetMapping("/coffee/{coffeeName}")
-    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenu(@PathVariable("coffeeName") String coffeeName) {
+    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenuByName(@PathVariable("coffeeName") String coffeeName) {
         CoffeeEntity coffeeEntity = storeService.getCoffee(coffeeName);
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -48,9 +57,20 @@ public class StoreController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    // TODO: 커피 메뉴 수정
+    // 커피 메뉴 수정
+    @PutMapping("/coffee/{coffeeId}")
+    public ResponseEntity<ResponseCoffeeDto> updateCoffeeMenu(@PathVariable("coffeeId") String coffeeId, @RequestBody CoffeeEditDto coffeeEditDto) {
+        CoffeeEntity coffeeEntity = storeService.updateCoffee(coffeeId, coffeeEditDto);
+        ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 
-    // TODO: 커피 메뉴 삭제
+    // 커피 메뉴 삭제
+    @DeleteMapping("/coffee/{coffeeId}")
+    public ResponseEntity<String> deleteCoffeeMenu(@PathVariable("coffeeId") String coffeeId) {
+        storeService.deleteCoffee(coffeeId);
+        return ResponseEntity.status(HttpStatus.OK).body(coffeeId + "가 성공적으로 삭제되었습니다.");
+    }
 
     // TODO : 커피 제조 진행
     // Kafka Sub

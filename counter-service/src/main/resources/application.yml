@@ -6,7 +6,7 @@ spring:
   application:
     name: counter-service
   rabbitmq:
-    host: 127.0.0.1
+    host: 172.10.40.152
     port: 5672
     username: guest
     password: guest
@@ -30,8 +30,10 @@ spring:
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    ip-address: 10.104.193.25
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://10.110.248.148:8761/eureka
