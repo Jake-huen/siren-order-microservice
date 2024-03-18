@@ -86,9 +86,4 @@ public class CounterController {
                 + ", token secret=" + env.getProperty("token.secret")
                 + ", token expiration time =" + env.getProperty("token.expiration_time"));
     }
-
-//    @GetMapping("/config-check")
-//    public String configCheck() {
-//        return env.getProperty("")
-//    }
 }
