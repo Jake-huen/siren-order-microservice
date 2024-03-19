@@ -10,6 +10,7 @@ import org.orchestro.storeservice.service.StoreService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -71,14 +72,6 @@ public class StoreController {
         storeService.deleteCoffee(coffeeId);
         return ResponseEntity.status(HttpStatus.OK).body(coffeeId + "가 성공적으로 삭제되었습니다.");
     }
-
-    // TODO : 커피 제조 진행
-    // Kafka Sub
-
-
-    // 커피 주문 상태 업데이트 -> TODO: Kafka 사용
-    // @PostMapping("/coffee-order-update")
-
 
     @GetMapping("/health_check")
     public String status() {

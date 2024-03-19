@@ -46,7 +46,7 @@ public class CounterService {
         return orderRepository.findByUserId(userId);
     }
 
-    public void orderCoffee(RequestOrderDto requestOrderDto) {
+    public String orderCoffee(RequestOrderDto requestOrderDto) {
         CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
 
         RequestedReceiptDto payload = RequestedReceiptDto.builder()
@@ -72,6 +72,7 @@ public class CounterService {
                 .orderStatus("PENDING") // 나중에 enum으로 수정
                 .build();
         orderRepository.save(orderEntity);
+        return payload.getOrderId();
     }
 
     public List<CoffeeOrderStatusDto> getOrderStatus(String status) {

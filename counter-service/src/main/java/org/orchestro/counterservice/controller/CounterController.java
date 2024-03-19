@@ -32,9 +32,9 @@ public class CounterController {
     // 사용자 커피 주문
     @PostMapping("/orders")
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
-        counterService.orderCoffee(requestOrderDto);
+        String orderId = counterService.orderCoffee(requestOrderDto);
 
-        return "주문 정보를 저장하였습니다.";
+        return String.format("주문 번호: %s를 저장하였습니다.", orderId);
     }
 
     // 제조 완료된 커피 DB 업데이트
