@@ -5,9 +5,15 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import static java.time.LocalTime.now;
 
 @Data
 @Entity
@@ -34,9 +40,8 @@ public class OrderEntity implements Serializable {
     @Column(nullable = false, unique = true)
     private String orderId;
 
-    @Column(nullable = false, updatable = false, insertable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    private Date createdAt;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public OrderEntity(){}
 

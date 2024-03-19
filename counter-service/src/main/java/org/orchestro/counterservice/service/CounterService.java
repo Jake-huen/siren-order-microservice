@@ -10,7 +10,9 @@ import org.orchestro.counterservice.jpa.OrderEntity;
 import org.orchestro.counterservice.jpa.OrderRepository;
 import org.orchestro.counterservice.messagequeue.KafkaProducer;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -75,7 +77,11 @@ public class CounterService {
     public List<CoffeeOrderStatusDto> getOrderStatus(String status) {
         // status에 해당하는 주문들 모두 조회
         List<OrderEntity> orderEntities = orderRepository.findByOrderStatus(status);
-        // TODO: CoffeeOrderStatusDto로 모두 변경해야함
-        return null;
+
+        List<CoffeeOrderStatusDto> result = new ArrayList<>();
+        orderEntities.forEach(v -> {
+            result.add(new ModelMapper().map(v, CoffeeOrderStatusDto.class));
+        });
+        return result;
     }
 }

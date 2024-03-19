@@ -7,6 +7,8 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.service.UserService;
+import org.orchestro.userservice.vo.JwtResponse;
+import org.orchestro.userservice.vo.RequestLogin;
 import org.orchestro.userservice.vo.RequestUser;
 import org.orchestro.userservice.vo.ResponseUser;
 import org.springframework.core.env.Environment;
@@ -61,7 +63,12 @@ public class UserController {
     }
 
     // 로그인
-    // @PostMapping("/")
+    @PostMapping("/users")
+    public ResponseEntity<JwtResponse> login(@RequestBody RequestLogin requestLogin) {
+        JwtResponse jwtResponse = userService.loginUser(requestLogin);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(jwtResponse);
+    }
 
     // 사용자 정보, 커피 주문 내역 조회
     @GetMapping("/users/{userId}")

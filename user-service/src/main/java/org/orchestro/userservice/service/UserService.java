@@ -8,12 +8,18 @@ import org.orchestro.userservice.client.CounterServiceClient;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.jpa.UserRepository;
+import org.orchestro.userservice.vo.JwtResponse;
+import org.orchestro.userservice.vo.RequestLogin;
 import org.orchestro.userservice.vo.ResponseOrder;
+import org.orchestro.userservice.vo.ResponseUser;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,5 +59,29 @@ public class UserService {
         userDto.setOrders(userOrders);
 
         return userDto;
+    }
+
+    public JwtResponse loginUser(RequestLogin requestLogin) {
+        // TODO : 로그인하고 JWT 토큰 발급
+        return null;
+    }
+
+    public UserDto getUserDetailsByEmail(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email);
+        if (userEntity == null) {
+            throw new UsernameNotFoundException(email);
+        }
+        return new ModelMapper().map(userEntity, UserDto.class);
+    }
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(username);
+        if (userEntity == null) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPwd(),
+                true, true, true, true,
+                new ArrayList<>());
     }
 }
