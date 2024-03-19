@@ -61,11 +61,6 @@ public class UserService {
         return userDto;
     }
 
-    public JwtResponse loginUser(RequestLogin requestLogin) {
-        userRepository.findByUserId()
-        return null;
-    }
-
     public UserDto getUserDetailsByEmail(String email) {
         UserEntity userEntity = userRepository.findByEmail(email);
         if (userEntity == null) {

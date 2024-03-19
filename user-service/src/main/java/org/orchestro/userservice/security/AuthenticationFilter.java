@@ -33,7 +33,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final UserService userService;
     private final Environment environment;
-    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationFilter(AuthenticationManager authenticationManager,
+                                UserService userService, Environment environment) {
+        super(authenticationManager);
+        this.userService = userService;
+        this.environment = environment;
+    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
