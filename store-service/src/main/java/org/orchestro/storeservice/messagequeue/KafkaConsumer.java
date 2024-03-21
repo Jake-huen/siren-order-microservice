@@ -27,7 +27,7 @@ public class KafkaConsumer {
     public void receive(ConsumerRecord<String, RequestedReceiptDto> consumerRecord) throws InterruptedException {
         RequestedReceiptDto requestedReceiptDto = consumerRecord.value();
         CoffeeEntity coffeeEntity = coffeeRepository.findByCoffeeId(requestedReceiptDto.getCoffeeId())
-                .orElseThrow(()-> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + requestedReceiptDto.getCoffeeId()));
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + requestedReceiptDto.getCoffeeId()));
         log.info("coffeeEntity 수량 : {}", coffeeEntity.getStock());
         log.info("요청 수량 : {}", requestedReceiptDto.getQty());
 
@@ -51,7 +51,7 @@ public class KafkaConsumer {
         }
 
 
-        if(coffeeEntity.getStock() >= requestedReceiptDto.getQty()) {
+        if (coffeeEntity.getStock() >= requestedReceiptDto.getQty()) {
             log.info(String.format("[%s] : 주문 성공", requestedReceiptDto.getOrderId()));
             coffeeEntity.setStock(coffeeEntity.getStock() - requestedReceiptDto.getQty());
             // seconds to milliseconds

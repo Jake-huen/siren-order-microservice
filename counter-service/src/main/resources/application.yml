@@ -15,11 +15,11 @@ spring:
 
 
    # config test
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://172.10.40.43:30306/counterdb
-#    username: root
-#    password: rlaxogjs8312
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.10.40.43:30306/counterdb
+    username: root
+    password: rlaxogjs8312
 #  h2:
 #    console:
 #      enabled: true
@@ -36,7 +36,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none #create-drop
+      ddl-auto: create #create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

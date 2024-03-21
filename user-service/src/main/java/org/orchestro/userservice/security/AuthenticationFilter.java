@@ -45,13 +45,10 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException {
         try {
-            //전달되어진 inputStream 을 자바 클래스 파일로 변환
             RequestLogin creds = new ObjectMapper().readValue(req.getInputStream(), RequestLogin.class);
 
-            //사용자가 입력한 값을 토큰으로 바꾸고 인증 처리를 하는 매니저에게 넘기면 아이디와 패스워드를 비교
-            //토큰 만듬
             return getAuthenticationManager().authenticate(
-                    // 토큰 변환
+                    // 토큰 변환(인증이 완료되지 않은 토큰)
                     new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
 
         } catch (IOException e) {
@@ -62,14 +59,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-        // log.debug(((User)auth.getPrincipal()).getUsername());
+        log.debug(((User)auth.getPrincipal()).getUsername()); // 이메일
         String userName = ((User) auth.getPrincipal()).getUsername();
         UserDto userDetails = userService.getUserDetailsByEmail(userName);
-
-//        byte[] secretKeyBytes = Base64.getEncoder().encode(environment.getProperty("token.secret").getBytes());
-//
-//        SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
-
         Instant now = Instant.now();
 
         String token = Jwts.builder()

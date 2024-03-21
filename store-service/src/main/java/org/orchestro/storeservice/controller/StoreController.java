@@ -35,14 +35,6 @@ public class StoreController {
     }
 
     // 커피 단일 메뉴 조회
-    @GetMapping("/coffee/{coffeeId}")
-    public ResponseEntity<ResponseCoffeeDto> getCoffeeMenuById(@PathVariable("coffeeId") String coffeeId) {
-        CoffeeEntity coffeeEntity = storeService.getCoffeeByCoffeeId(coffeeId);
-        ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    // 커피 단일 메뉴 조회
     @GetMapping("/coffee/{coffeeName}")
     public ResponseEntity<ResponseCoffeeDto> getCoffeeMenuByName(@PathVariable("coffeeName") String coffeeName) {
         CoffeeEntity coffeeEntity = storeService.getCoffee(coffeeName);

@@ -37,10 +37,26 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
+            - Path=/user-service/users
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+
+
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
             - Path=/user-service/**
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+
+
+
         - id: counter-service
           uri: lb://COUNTER-SERVICE
           predicates:
@@ -48,6 +64,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/counter-service(?<segment>.*), /$\{segment}
+            # - AuthorizationHeaderFilter
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:
@@ -55,6 +72,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/store-service(?<segment>.*), /$\{segment}
+            # - AuthorizationHeaderFilter
 management:
   endpoints:
     web:
@@ -63,3 +81,4 @@ management:
 
 token:
   expiration_time: 86400000
+  secret: coffee

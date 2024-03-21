@@ -2,6 +2,7 @@ package org.orchestro.userservice.security;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.orchestro.userservice.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,13 +28,14 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
+@Slf4j
 public class WebSecurity {
 
     private final UserService userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final Environment env;
 
-    public static final String ALLOWED_IP_ADDRESS = "127.0.0.1";
+    public static final String ALLOWED_IP_ADDRESS = "172.10.40.174";
     public static final String SUBNET = "/32";
     public static final IpAddressMatcher ALLOWED_IP_ADDRESS_MATCHER =
             new IpAddressMatcher(ALLOWED_IP_ADDRESS + SUBNET);
@@ -57,9 +59,10 @@ public class WebSecurity {
                                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
                                 .requestMatchers("/**").access(
                                         new WebExpressionAuthorizationManager(
-                                                "hasIpAddress('127.0.0.1') or hasIpAddress('192.168.0.135') or hasIpAddress('172.18.0.5') or hasIpAddress('172.10.40.174')"))
+                                                "hasIpAddress('10.96.0.0/12')"))
                                 .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)
