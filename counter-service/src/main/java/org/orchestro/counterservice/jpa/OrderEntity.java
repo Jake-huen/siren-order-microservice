@@ -18,7 +18,7 @@ import static java.time.LocalTime.now;
 @Data
 @Entity
 @Table(name = "orders")
-public class OrderEntity implements Serializable {
+public class    OrderEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

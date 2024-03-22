@@ -21,5 +21,5 @@ public class OrderReceiptFromStoreDto {
     private String coffeeName;
     private Integer qty;
     private String userId;
-    private Date createdAt;ㄴ
+    private Date createdAt;
 }

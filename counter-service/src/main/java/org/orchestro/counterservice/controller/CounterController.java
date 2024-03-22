@@ -70,7 +70,7 @@ public class CounterController {
     // 실패한 주문들 조회
     @GetMapping("/orders-failed")
     public ResponseEntity<List<CoffeeOrderStatusDto>> getOrderFailed() {
-        List<CoffeeOrderStatusDto> successOrder = counterService.getOrderStatus("FAIL");
+        List<CoffeeOrderStatusDto> successOrder = counterService.getOrderStatus("FAILED");
         return ResponseEntity.status(HttpStatus.OK).body(successOrder);
     }
 

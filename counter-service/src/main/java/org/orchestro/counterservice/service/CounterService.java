@@ -89,6 +89,7 @@ public class CounterService {
         List<OrderEntity> orderEntities = orderRepository.findByOrderStatus(status);
 
         List<CoffeeOrderStatusDto> result = new ArrayList<>();
+
         orderEntities.forEach(v -> {
             result.add(new ModelMapper().map(v, CoffeeOrderStatusDto.class));
         });
