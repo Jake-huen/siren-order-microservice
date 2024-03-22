@@ -36,6 +36,11 @@ public class UserController {
                 + ", token expiration time =" + env.getProperty("token.expiration_time"));
     }
 
+    @GetMapping("/config-check")
+    public String configCheck() {
+        return env.getProperty("greeting");
+    }
+
     // 전체 사용자 조회
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getAllUsers() {

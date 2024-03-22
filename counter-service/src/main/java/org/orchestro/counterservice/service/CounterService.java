@@ -1,7 +1,9 @@
 package org.orchestro.counterservice.service;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.counterservice.client.StoreServiceClient;
@@ -19,10 +21,13 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CounterService {
     private final OrderRepository orderRepository;
     private final StoreServiceClient storeServiceClient;
     private final KafkaProducer kafkaProducer;
+
+    private final static String orderCoffeeTopic = "coffee-store-ordered-events";
 
     public CoffeeOrderDto createOrder(CoffeeOrderDto orderDetails) {
         orderDetails.setOrderId(UUID.randomUUID().toString());
@@ -46,6 +51,7 @@ public class CounterService {
         return orderRepository.findByUserId(userId);
     }
 
+    @Transactional
     public String orderCoffee(RequestOrderDto requestOrderDto) {
         CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
 
@@ -57,20 +63,23 @@ public class CounterService {
                 .userId(requestOrderDto.getUserId())
                 .createdAt(new Date())
                 .build();
+        log.info("Date = {}", new Date());
         // 주문 내용 kafka 전달
-        String topic = "coffee-store-ordered-events";
-        kafkaProducer.send(topic, payload);
+        log.info("[카프카 전달 전]");
+        kafkaProducer.send(orderCoffeeTopic, payload);
+        log.info("[카프카 전달 완료]");
         // DB에 주문 내용 저장
         Integer totalPrice = coffeeByCoffeeName.getUnitPrice() * requestOrderDto.getQty();
         OrderEntity orderEntity = OrderEntity.builder()
-                .productId(coffeeByCoffeeName.getCoffeeId())
-                .qty(requestOrderDto.getQty())
+                .productId(payload.getCoffeeId())
+                .qty(payload.getQty())
                 .unitPrice(coffeeByCoffeeName.getUnitPrice())
                 .totalPrice(totalPrice)
-                .userId(requestOrderDto.getUserId())
-                .orderId(UUID.randomUUID().toString())
-                .orderStatus("PENDING") // 나중에 enum으로 수정
+                .userId(payload.getUserId())
+                .orderId(payload.getOrderId())
+                .orderStatus("PENDING")
                 .build();
+        log.info("total Price = {}", totalPrice);
         orderRepository.save(orderEntity);
         return payload.getOrderId();
     }

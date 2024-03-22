@@ -55,14 +55,14 @@ public class WebSecurity {
 
         http.csrf(AbstractHttpConfigurer::disable);
 
-        http.authorizeHttpRequests((authz) -> authz
+        http.authorizeHttpRequests((auth) -> auth
                                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
                                 .requestMatchers("/**").access(
                                         new WebExpressionAuthorizationManager(
-                                                "hasIpAddress('10.96.0.0/12')"))
+                                                "hasIpAddress('10.0.0.0/8')")) // 10.96.0.0/12
                                 .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)

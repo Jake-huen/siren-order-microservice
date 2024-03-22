@@ -34,11 +34,8 @@ public class CounterController {
     public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
         String orderId = counterService.orderCoffee(requestOrderDto);
 
-        return String.format("주문 번호: %s를 저장하였습니다.", orderId);
+        return String.format("[%s 주문] %s 커피를 %s개 주문하였습니다.", orderId, requestOrderDto.getCoffeeName(), requestOrderDto.getQty());
     }
-
-    // 제조 완료된 커피 DB 업데이트
-    // TODO: Kafka Listener 이용
 
     // 사용자별 커피 주문 내역 조회
     @GetMapping("/{userId}/orders")

@@ -1,4 +1,4 @@
-package org.orchestro.storeservice.dto;
+package org.orchestro.counterservice.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -21,5 +21,5 @@ public class OrderReceiptFromStoreDto {
     private String coffeeName;
     private Integer qty;
     private String userId;
-    private Date createdAt;
+    private Date createdAt;ㄴ
 }
