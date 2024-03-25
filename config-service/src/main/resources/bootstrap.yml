@@ -1,7 +1,0 @@
-
-encrypt:
-  key: abcdefghijklmnopqrstuvwxyz0123456789
-#  key-store:
-#    password: rlaxogjs8312
-#    alias: apiEncryptionKey
-#    location: file:/apiEncryptionKey.jks
