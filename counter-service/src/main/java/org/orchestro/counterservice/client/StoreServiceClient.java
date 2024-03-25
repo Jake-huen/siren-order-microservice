@@ -13,3 +13,4 @@ public interface StoreServiceClient {
     CoffeeDto getCoffeeByCoffeeName(@PathVariable String coffeeName);
 
 }
+

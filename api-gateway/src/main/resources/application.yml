@@ -71,6 +71,8 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/counter-service(?<segment>.*), /$\{segment}
             # - AuthorizationHeaderFilter
+
+
         - id: store-service
           uri: lb://STORE-SERVICE
           predicates:

@@ -11,49 +11,12 @@ spring:
     password: guest
   config:
     import: classpath:/bootstrap.yml
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: true
-      path: /h2-console
-
-eureka:
-  instance:
-  # home-page-url: http://10.100.225.34
-    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
-    prefer-ip-address: true
-    ip-address: 10.104.193.23
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://10.110.248.148:8761/eureka #http://127.0.0.1:8761/eureka
-token:
-  expiration_time: 86400000
-  secret: coffee
 
 counter_service:
   url: http://COUNTER-SERVICE/counter-service/%s/orders #http://127.0.0.1:8000/order-service/%s/orders
   exception:
     orders_is_empty: no item
 
-# ZIPKIN 설정
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-    propagation:
-      consume: B3
-      produce: B3_MULTI
-  zipkin:
-    tracing:
-      endpoint: "http://172.10.40.174:30100/api/v2/spans"
-  endpoints:
-    web:
-      exposure:
-        include:
-          refresh, health, beans, busrefresh
 logging:
   pattern:
     level: "%5p [%X{traceId:-},%X{spanId:-}]"

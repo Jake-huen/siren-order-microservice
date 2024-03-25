@@ -2,3 +2,4 @@
 .DS_Store
 *.tar
 .DS_Store
+user-service/src/main/resources/bootstrap.yml
