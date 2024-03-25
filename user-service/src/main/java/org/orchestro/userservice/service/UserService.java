@@ -34,9 +34,9 @@ public class UserService implements UserDetailsService {
         userDto.setUserId(UUID.randomUUID().toString());
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        log.info("userDto:{}", userDto);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
         userEntity.setEncryptedPwd(bCryptPasswordEncoder.encode(userDto.getPwd()));
+        log.info("userEntity:{}", userEntity);
         userRepository.save(userEntity);
 
         return mapper.map(userEntity, UserDto.class);
@@ -53,7 +53,10 @@ public class UserService implements UserDetailsService {
         }
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
+        /* ZIPKIN */
+        log.info("Before call Counter microservice");
         List<ResponseOrder> userOrders = counterServiceClient.getUserOrders(userId);
+        log.info("After call Counter microservice");
         userDto.setOrders(userOrders);
 
         return userDto;

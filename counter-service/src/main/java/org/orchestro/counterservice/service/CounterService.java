@@ -53,8 +53,10 @@ public class CounterService {
 
     @Transactional
     public String orderCoffee(RequestOrderDto requestOrderDto) {
+        // ZIPKIN
+        log.info("Before call Store microservice");
         CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
-
+        log.info("After call Store microservice");
         RequestedReceiptDto payload = RequestedReceiptDto.builder()
                 .coffeeId(coffeeByCoffeeName.getCoffeeId())
                 .coffeeName(coffeeByCoffeeName.getCoffeeName())
@@ -63,7 +65,6 @@ public class CounterService {
                 .userId(requestOrderDto.getUserId())
                 .createdAt(new Date())
                 .build();
-        log.info("Date = {}", new Date());
         // 주문 내용 kafka 전달
         log.info("[카프카 전달 전]");
         kafkaProducer.send(orderCoffeeTopic, payload);

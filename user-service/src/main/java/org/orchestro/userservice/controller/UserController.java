@@ -67,14 +67,6 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
     }
 
-    // 로그인
-//    @PostMapping("/users")
-//    public ResponseEntity<JwtResponse> login(@RequestBody RequestLogin requestLogin) {
-//        JwtResponse jwtResponse = userService.loginUser(requestLogin);
-//
-//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(jwtResponse);
-//    }
-
     // 사용자 정보, 커피 주문 내역 조회
     @GetMapping("/users/{userId}")
     public ResponseEntity<ResponseUser> getUserByUserId(@PathVariable String userId) {

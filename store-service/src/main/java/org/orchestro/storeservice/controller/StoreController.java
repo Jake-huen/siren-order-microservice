@@ -1,6 +1,7 @@
 package org.orchestro.storeservice.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.orchestro.storeservice.dto.CoffeeDto;
 import org.orchestro.storeservice.dto.CoffeeEditDto;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class StoreController {
@@ -37,8 +39,10 @@ public class StoreController {
     // 커피 단일 메뉴 조회
     @GetMapping("/coffee/{coffeeName}")
     public ResponseEntity<ResponseCoffeeDto> getCoffeeMenuByName(@PathVariable("coffeeName") String coffeeName) {
+        log.info("Before retrieve CoffeeName data");
         CoffeeEntity coffeeEntity = storeService.getCoffee(coffeeName);
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
+        log.info("After retrieve Coffee data");
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 

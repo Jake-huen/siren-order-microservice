@@ -59,7 +59,6 @@ public class CounterController {
         return ResponseEntity.status(HttpStatus.OK).body(successOrder);
     }
 
-
     // 대기중인 주문들 조회
     @GetMapping("/orders-pending")
     public ResponseEntity<List<CoffeeOrderStatusDto>> getOrderPending() {
