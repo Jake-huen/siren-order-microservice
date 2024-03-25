@@ -35,4 +35,4 @@ out/
 
 ### VS Code ###
 .vscode/
-config-service/src/main/resources/bootstrap.yml
+./src/main/resources/bootstrap.yml
