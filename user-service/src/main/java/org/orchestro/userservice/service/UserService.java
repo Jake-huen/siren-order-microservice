@@ -9,6 +9,8 @@ import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.jpa.UserRepository;
 import org.orchestro.userservice.vo.ResponseOrder;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,6 +31,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final CounterServiceClient counterServiceClient;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     public UserDto createUser(UserDto userDto) {
         userDto.setUserId(UUID.randomUUID().toString());
@@ -55,7 +58,12 @@ public class UserService implements UserDetailsService {
 
         /* ZIPKIN */
         log.info("Before call Counter microservice");
-        List<ResponseOrder> userOrders = counterServiceClient.getUserOrders(userId);
+        // List<ResponseOrder> userOrders = counterServiceClient.getUserOrders(userId);
+        /* CircuitBreaker */
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        List<ResponseOrder> userOrders = circuitbreaker.run(() -> counterServiceClient.getUserOrders(userId),
+                throwable -> new ArrayList<>());
+
         log.info("After call Counter microservice");
         userDto.setOrders(userOrders);
 

@@ -23,7 +23,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
         switch(response.status()) {
             case 400:
                 break;
-            case 404:
+            case 500:
                 if (methodKey.contains("getCoffeeByCoffeeName")) {
                     return new ResponseStatusException(HttpStatus.valueOf(response.status()),
                             env.getProperty("store_service.exception.storeMenu_is_empty"));

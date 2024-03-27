@@ -11,6 +11,8 @@ import org.orchestro.counterservice.dto.*;
 import org.orchestro.counterservice.jpa.OrderEntity;
 import org.orchestro.counterservice.jpa.OrderRepository;
 import org.orchestro.counterservice.messagequeue.KafkaProducer;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 
@@ -26,6 +28,7 @@ public class CounterService {
     private final OrderRepository orderRepository;
     private final StoreServiceClient storeServiceClient;
     private final KafkaProducer kafkaProducer;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
     private final static String orderCoffeeTopic = "coffee-store-ordered-events";
 
@@ -55,7 +58,11 @@ public class CounterService {
     public String orderCoffee(RequestOrderDto requestOrderDto) {
         // ZIPKIN
         log.info("Before call Store microservice");
-        CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
+        // CircuitBreaker
+        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+        CoffeeDto coffeeByCoffeeName = circuitbreaker.run(() -> storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName()),
+                throwable -> new CoffeeDto());
+        // CoffeeDto coffeeByCoffeeName = storeServiceClient.getCoffeeByCoffeeName(requestOrderDto.getCoffeeName());
         log.info("After call Store microservice");
         RequestedReceiptDto payload = RequestedReceiptDto.builder()
                 .coffeeId(coffeeByCoffeeName.getCoffeeId())
