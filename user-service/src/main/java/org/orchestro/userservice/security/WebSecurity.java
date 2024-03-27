@@ -56,14 +56,15 @@ public class WebSecurity {
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests((auth) -> auth
-                                .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
-                                .requestMatchers("/**").access(
-                                        new WebExpressionAuthorizationManager(
-                                                "hasIpAddress('10.0.0.0/8')")) // TODO : 10.96.0.0/12
-                                .anyRequest().authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll() // 회원가입
+                        .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/config-check")).permitAll()
+                        .requestMatchers("/**").access(
+                                new WebExpressionAuthorizationManager(
+                                        "hasIpAddress('10.0.0.0/8') or hasIpAddress('127.0.0.1') or hasIpAddress('192.168.1.218')")) // TODO : 10.96.0.0/12
+                        .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)
                 .sessionManagement((session) -> session

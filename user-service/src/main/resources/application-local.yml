@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 0
 
 spring:
   application:
@@ -10,12 +10,10 @@ spring:
     username: guest
     password: guest
   config:
-    import: classpath:/bootstrap.yml
-
-
+    import: classpath:/bootstrap-local.yml
 
 counter_service:
-  url: http://COUNTER-SERVICE/counter-service/%s/orders #http://127.0.0.1:8000/order-service/%s/orders
+  url: http://COUNTER-SERVICE/counter-service/%s/orders
   exception:
     orders_is_empty: no item
 

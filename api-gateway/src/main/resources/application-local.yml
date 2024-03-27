@@ -1,0 +1,20 @@
+
+server:
+  port: 8000
+
+spring:
+  application:
+    name: apigateway-service
+  rabbitmq:
+    host: 172.10.40.152
+    port: 5672
+    username: guest
+    password: guest
+  config:
+    import: classpath:/bootstrap-local.yml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httptrace, busrefresh

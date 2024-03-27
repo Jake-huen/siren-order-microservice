@@ -2,6 +2,9 @@
 server:
   port: 8000
 
+check:
+  check-application.yml
+
 eureka:
   client:
     fetch-registry: true
@@ -22,10 +25,6 @@ spring:
   cloud:
     gateway:
       routes:
-#        - id: user-service
-#          uri: http://10.233.124.22:37041
-#          predicates:
-#            - Path=/user-service/**
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:

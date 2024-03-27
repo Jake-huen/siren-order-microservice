@@ -1,0 +1,26 @@
+
+server:
+  port: 0
+
+spring:
+  application:
+    name: store-service
+  rabbitmq:
+    host: 172.10.40.152
+    port: 5672
+    username: guest
+    password: guest
+  config:
+    import: classpath:/bootstrap-local.yml
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true

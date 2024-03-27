@@ -2,4 +2,4 @@ spring:
   cloud:
     config:
       uri: http://172.10.40.174:30008
-      name: counter-service
+      name: counter-local

@@ -1,9 +1,20 @@
+import React from "react";
+import {FaCoffee} from 'react-icons/fa';
+
 const Navigation = () => {
     return (
-        <nav className="container">
-            <div className="logo">
-                <img className="top-logo" src="/images/brand_logo.png" alt="" />
+        <>
+        <nav className="header">
+            <div className="top_header">
+                <div className="icon">
+                    {/* <img className="top-logo" src="/images/brand_logo.png" alt="" /> */}
+                    <FaCoffee />
+                </div>
+                <div className="info">
+                    <p>COFFEE SIREN ORDER</p>
+                </div>
             </div>
+            
 
             <ul>
                 <li href="#">Menu</li>
@@ -14,6 +25,8 @@ const Navigation = () => {
 
             <button>login</button>
         </nav>
+        </>
+        
     );
 
 }
