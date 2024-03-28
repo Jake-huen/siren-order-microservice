@@ -22,70 +22,9 @@ spring:
     password: guest
   config:
     import: classpath:/bootstrap.yml
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/login
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/users
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/health_check
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
-
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter # 회원가입, 로그인, health_check 제외한 모든 API 검사함
-
-
-
-
-        - id: counter-service
-          uri: lb://COUNTER-SERVICE
-          predicates:
-            - Path=/counter-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/counter-service(?<segment>.*), /$\{segment}
-            # - AuthorizationHeaderFilter
-
-
-        - id: store-service
-          uri: lb://STORE-SERVICE
-          predicates:
-            - Path=/store-service/**
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/store-service(?<segment>.*), /$\{segment}
-            # - AuthorizationHeaderFilter
 management:
   endpoints:
     web:
       exposure:
         include: refresh, health, beans, httptrace, busrefresh
-
-token:
-  expiration_time: 86400000
-  secret: coffee

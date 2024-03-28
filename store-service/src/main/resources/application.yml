@@ -25,22 +25,3 @@ spring:
     generate-ddl: true
     defer-datasource-initialization: true
 
-# ZIPKIN 설정
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-    propagation:
-      consume: B3
-      produce: B3_MULTI
-  zipkin:
-    tracing:
-      endpoint: "http://172.10.40.174:30100/api/v2/spans"
-  endpoints:
-    web:
-      exposure:
-        include:
-          refresh, health, beans, busrefresh
-logging:
-  pattern:
-    level: "%5p [%X{traceId:-},%X{spanId:-}]"
