@@ -1,5 +1,6 @@
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link, useRouteMatch, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { getCoffeeMenuByName } from '../api'
 import {
   motion,
   useAnimation,
@@ -7,6 +8,8 @@ import {
   useScroll,
 } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useQuery } from 'react-query'
 
 const Nav = styled(motion.nav)`
   display: flex;
@@ -54,7 +57,7 @@ const Item = styled.li`
   }
 `
 
-const Search = styled.span`
+const Search = styled.form`
   color: white;
   display: flex;
   align-items: center;
@@ -119,6 +122,10 @@ function Header() {
   const inputAnimation = useAnimation()
   const navAnimation = useAnimation()
   const { scrollY, scrollYProgress } = useScroll()
+  const { data, isLoading } = useQuery(
+    ['coffees', 'coffeeName'],
+    getCoffeeMenuByName
+  )
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({
@@ -133,6 +140,11 @@ function Header() {
     if (y < 0.1) navAnimation.start('top')
     else navAnimation.start('scroll')
   })
+  const history = useHistory()
+  const { register, handleSubmit } = useForm()
+  const onValid = data => {
+    history.push(`/coffees/${data.keyword}`)
+  }
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={'top'}>
       <Col>
@@ -185,7 +197,7 @@ function Header() {
         </Items>
       </Col>
       <Col>
-        <Search>
+        <Search onSubmit={handleSubmit(onValid)}>
           <motion.svg
             onClick={toggleSearch}
             animate={{ x: searchOpen ? -185 : 0 }}
@@ -201,6 +213,7 @@ function Header() {
             ></path>
           </motion.svg>
           <Input
+            {...register('keyword', { required: true, minLength: 2 })}
             transition={{ type: 'linear' }}
             animate={inputAnimation}
             initial={{ scaleX: 0 }}

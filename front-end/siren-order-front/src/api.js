@@ -5,3 +5,9 @@ export function getCoffees() {
     response.json()
   )
 }
+
+export function getCoffeeMenuByName(coffeeName) {
+  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`).then(
+    response => response.json()
+  )
+}

@@ -1,3 +1,3 @@
-// export function makeImagePath(id:string, format?: string){
-//     return `https://image.tmdb.org`
-// }
+export function makeImagePath(name) {
+  return `${name}`
+}
