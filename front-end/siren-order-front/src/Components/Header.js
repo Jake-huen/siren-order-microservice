@@ -143,7 +143,9 @@ function Header() {
   const history = useHistory()
   const { register, handleSubmit } = useForm()
   const onValid = data => {
-    history.push(`/coffees/${data.keyword}`)
+    getCoffeeMenuByName(data.keyword).then(data => {
+      history.push(`/coffees/${data.coffeeId}`)
+    })
   }
   return (
     <Nav variants={navVariants} animate={navAnimation} initial={'top'}>
