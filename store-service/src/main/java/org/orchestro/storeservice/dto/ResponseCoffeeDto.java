@@ -10,4 +10,6 @@ public class ResponseCoffeeDto {
     private String stock;
     private Integer unitPrice;
     private Integer coffeeBrewTime;
+    private String coffeeImage;
+    private String coffeeDescription;
 }

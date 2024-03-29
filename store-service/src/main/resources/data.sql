@@ -1,6 +1,10 @@
-insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time)
-values ('COFFEE-0001', 'Americano', 3000, 1500, 60);
-insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time)
-values ('COFFEE-0002', 'Latte', 1000, 3000, 120);
-insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time)
-values ('COFFEE-0003', 'Cappucino', 100, 2000, 30);
+insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time, coffee_image, coffee_description)
+values ('1', 'Black Coffee', 1400, 1500, 30, 'https://images.unsplash.com/photo-1494314671902-399b18174975?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Svart kaffe är så enkelt som det kan bli med malda kaffebönor dränkta i hett vatten, serverat varmt. Och om du vill låta fancy kan du kalla svart kaffe med sitt rätta namn: café noir.');
+insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time, coffee_image, coffee_description)
+values ('2', 'Latte', 1000, 3000, 120, 'https://images.unsplash.com/photo-1561882468-9110e03e0f78?auto=format&fit=crop&q=60&w=800&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGxhdHRlfGVufDB8fDB8fHww', 'Som den mest populära kaffedrycken där ute består latte av en skvätt espresso och ångad mjölk med bara en gnutta skum. Den kan beställas utan smak eller med smak av allt från vanilj till pumpa kryddor.');
+insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time, coffee_image, coffee_description)
+values ('3', 'Caramel Latte', 200, 3000, 40,'https://images.unsplash.com/photo-1599398054066-846f28917f38?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Om du gillar latte med en speciell smak kan karamell latte vara det bästa alternativet för att ge dig en upplevelse av den naturliga sötman och krämigheten hos ångad mjölk och karamell.');
+insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time, coffee_image, coffee_description)
+values ('4', 'Cappucino', 100, 2000, 30,'https://images.unsplash.com/photo-1557006021-b85faa2bc5e2?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Cappuccino är en latte som är gjord med mer skum än ångad mjölk, ofta med ett strö av kakaopulver eller kanel på toppen. Ibland kan du hitta variationer som använder grädde istället för mjölk eller sådana som tillsätter smakämnen också.');
+insert into coffee(coffee_id, coffee_name, stock, unit_price, coffee_brew_time, coffee_image, coffee_description)
+values ('5', 'Americano', 3000, 1500, 60, 'https://images.unsplash.com/photo-1532004491497-ba35c367d634?auto=format&fit=crop&q=80&w=1887&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', 'Med en liknande smak som svart kaffe består americano av en espresso skott utspätt med hett vatten.');

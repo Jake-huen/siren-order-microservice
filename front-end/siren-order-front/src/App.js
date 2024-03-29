@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Header from './Routes/Components/Header'
+import Header from './Components/Header'
 import Home from './Routes/Home'
 import Coffee from './Routes/Coffee'
 import Search from './Routes/Search'

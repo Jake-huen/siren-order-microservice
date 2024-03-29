@@ -8,4 +8,6 @@ public class CoffeeEditDto {
     private String coffeeName;
     private Integer unitPrice;
     private Integer coffeeBrewTime;
+    private String coffeeImage;
+    private String coffeeDescription;
 }

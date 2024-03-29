@@ -9,4 +9,6 @@ public class CoffeeDto {
     private Integer stock;
     private Integer unitPrice;
     private Integer coffeeBrewTime;
+    private String coffeeImage;
+    private String coffeeDescription;
 }
