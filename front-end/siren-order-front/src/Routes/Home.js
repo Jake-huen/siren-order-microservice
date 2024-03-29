@@ -165,6 +165,61 @@ const BigOverView = styled.p`
   top: -80px;
 `
 
+const OrderForm = styled.form`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const QuantityInput = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  width: 25%;
+  font-size: 16px;
+  border: 2px solid ${props => props.theme.primary};
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
+
+const PriceDisplay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+`
+
+const OrderButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin-top: 100px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+  background-color: ${props => props.theme.white.darker};
+  font-size: 18px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: ${props => props.theme.white.lighter};
+    font-size: 20px;
+  }
+`
+
+const RemainingStock = styled.div`
+  font-size: 18px;
+  margin-top: 10px;
+  color: gray;
+`
+
 function Home() {
   const history = useHistory()
   const bigCoffeeMatch = useRouteMatch('/coffees/:coffeeId')
@@ -192,6 +247,17 @@ function Home() {
   const clickedCoffee =
     bigCoffeeMatch?.params.coffeeId &&
     data.find(coffee => coffee.coffeeId === bigCoffeeMatch.params.coffeeId)
+
+  const [quantity, setQuantity] = useState(1)
+
+  const handleQuantityChange = e => {
+    const newQuantity = parseInt(e.target.value)
+    setQuantity(newQuantity)
+  }
+
+  const handleSubmit = coffeeId => {
+    console.log(coffeeId)
+  }
   return (
     <Wrapper>
       {isLoading ? (
@@ -261,8 +327,29 @@ function Home() {
                       />
                       <BigTitle>{clickedCoffee.coffeeName}</BigTitle>
                       <BigOverView>
-                        {clickedCoffee.coffeeDescription}
+                        상세 정보 : {clickedCoffee.coffeeDescription}
                       </BigOverView>
+                      <OrderForm onSubmit={handleSubmit}>
+                        <RemainingStock>
+                          남은 수량 : {clickedCoffee.stock}
+                        </RemainingStock>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                          <QuantityInput
+                            type="number"
+                            value={quantity}
+                            onChange={handleQuantityChange}
+                          ></QuantityInput>
+                          <PriceDisplay>
+                            가격 : {clickedCoffee.unitPrice} 원
+                          </PriceDisplay>
+                        </div>
+
+                        <OrderButton
+                          onSubmit={() => handleSubmit(clickedCoffee.coffeeId)}
+                        >
+                          주문하기
+                        </OrderButton>
+                      </OrderForm>
                     </>
                   )}
                 </BigCofee>

@@ -122,10 +122,7 @@ function Header() {
   const inputAnimation = useAnimation()
   const navAnimation = useAnimation()
   const { scrollY, scrollYProgress } = useScroll()
-  const { data, isLoading } = useQuery(
-    ['coffees', 'coffeeName'],
-    getCoffeeMenuByName
-  )
+  const { data, isLoading } = useQuery(getCoffeeMenuByName)
   const toggleSearch = () => {
     if (searchOpen) {
       inputAnimation.start({
