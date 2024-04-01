@@ -223,7 +223,10 @@ function Home() {
   const history = useHistory()
   const bigCoffeeMatch = useRouteMatch('/coffees/:coffeeId')
   const { scrollY, scrollYProgress } = useScroll()
-  const { data, isLoading } = useQuery(['coffees', 'coffeeName'], getCoffees)
+  const { data, isLoading } = useQuery(
+    ['coffees', 'coffeeName', 'coffeeImage'],
+    () => getCoffees()
+  )
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
