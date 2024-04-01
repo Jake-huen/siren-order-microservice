@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { getCoffees } from '../api'
+import { getCoffees, submitOrder } from '../api'
 import { styled } from 'styled-components'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { makeImagePath } from '../utils'
@@ -148,7 +148,7 @@ const BigCover = styled.div`
   width: 100%;
   background-size: cover;
   background-position: center center;
-  height: 400px;
+  height: 250px;
 `
 
 const BigTitle = styled.h2`
@@ -162,20 +162,21 @@ const BigTitle = styled.h2`
 const BigOverView = styled.p`
   padding: 20px;
   color: ${props => props.theme.white.lighter};
-  top: -80px;
 `
 
 const OrderForm = styled.form`
   margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-left: 30px;
+  margin-right: 30px;
+  border: 1px solid #ccc;
+  padding: 10px;
 `
 
 const QuantityInput = styled.input`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
   padding: 10px;
   width: 25%;
   font-size: 16px;
@@ -191,17 +192,15 @@ const PriceDisplay = styled.div`
   align-items: center;
   font-size: 20px;
   margin-bottom: 10px;
-  margin-left: 30px;
 `
 
 const OrderButton = styled.button`
   display: flex;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
   width: 50%;
-  margin-top: 100px;
   height: 50px;
-  border: none;
   cursor: pointer;
   background-color: ${props => props.theme.white.darker};
   font-size: 18px;
@@ -215,8 +214,7 @@ const OrderButton = styled.button`
 `
 
 const RemainingStock = styled.div`
-  font-size: 18px;
-  margin-top: 10px;
+  font-size: 14px;
   color: gray;
 `
 
@@ -225,7 +223,6 @@ function Home() {
   const bigCoffeeMatch = useRouteMatch('/coffees/:coffeeId')
   const { scrollY, scrollYProgress } = useScroll()
   const { data, isLoading } = useQuery(['coffees', 'coffeeName'], getCoffees)
-  // console.log(data?.[0])
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
@@ -255,8 +252,24 @@ function Home() {
     setQuantity(newQuantity)
   }
 
-  const handleSubmit = coffeeId => {
-    console.log(coffeeId)
+  const handleSubmit = coffeeName => {
+    const quantityValue = parseInt(quantity)
+    setQuantity(1)
+    if (quantityValue <= 0) {
+      alert('수량은 1 이상이어야 합니다.')
+      return
+    }
+    submitOrder(
+      'cbd12de0-4cd5-45af-9e10-db38f8833a53',
+      coffeeName,
+      quantityValue
+    )
+      .then(response => {
+        console.log('Order response: ', response)
+      })
+      .catch(error => {
+        console.error('Order error: ', error)
+      })
   }
   return (
     <Wrapper>
@@ -323,17 +336,22 @@ function Home() {
                             clickedCoffee.coffeeImage
                           )})`,
                         }}
-                        width="400px"
+                        width="300px"
                       />
                       <BigTitle>{clickedCoffee.coffeeName}</BigTitle>
                       <BigOverView>
                         상세 정보 : {clickedCoffee.coffeeDescription}
                       </BigOverView>
-                      <OrderForm onSubmit={handleSubmit}>
+                      <OrderForm
+                        onSubmit={e => {
+                          e.preventDefault()
+                          handleSubmit(clickedCoffee.coffeeName)
+                        }}
+                      >
                         <RemainingStock>
-                          남은 수량 : {clickedCoffee.stock}
+                          남은 수량 : {clickedCoffee.stock} 개
                         </RemainingStock>
-                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <div>
                           <QuantityInput
                             type="number"
                             value={quantity}
@@ -344,11 +362,7 @@ function Home() {
                           </PriceDisplay>
                         </div>
 
-                        <OrderButton
-                          onSubmit={() => handleSubmit(clickedCoffee.coffeeId)}
-                        >
-                          주문하기
-                        </OrderButton>
+                        <OrderButton type="submit">주문하기</OrderButton>
                       </OrderForm>
                     </>
                   )}

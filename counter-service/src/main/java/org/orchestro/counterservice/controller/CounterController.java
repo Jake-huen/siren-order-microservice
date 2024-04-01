@@ -31,10 +31,10 @@ public class CounterController {
 
     // 사용자 커피 주문
     @PostMapping("/orders")
-    public String coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
+    public ResponseEntity<OrderDto> coffeeOrder(@RequestBody RequestOrderDto requestOrderDto) {
         String orderId = counterService.orderCoffee(requestOrderDto);
-
-        return String.format("[%s 주문] %s 커피를 %s개 주문하였습니다.", orderId, requestOrderDto.getCoffeeName(), requestOrderDto.getQty());
+        OrderDto orderDto = new OrderDto(orderId, requestOrderDto.getCoffeeName(), requestOrderDto.getQty());
+        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
     }
 
     // 사용자별 커피 주문 내역 조회
