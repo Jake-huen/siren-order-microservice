@@ -25,3 +25,27 @@ export function submitOrder(userId, coffeeName, qty) {
     }),
   }).then(response => response.json())
 }
+
+export function login(email, password) {
+  return fetch(`${BASE_PATH}/user-service/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export function signup(email, name, pwd) {
+  return fetch(`${BASE_PATH}/user-service/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, name, pwd }),
+  }).then(response => {
+    return response.json()
+  })
+}

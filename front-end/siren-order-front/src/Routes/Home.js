@@ -230,7 +230,6 @@ function Home() {
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const increaseIndex = () => {
     if (data) {
       if (leaving) return
@@ -272,7 +271,7 @@ function Home() {
       .then(response => {
         console.log('Order response: ', response)
         Swal.fire({
-          title: '주문 성공!!!',
+          title: '가게에 주문을 요청하였습니다!!!',
           icon: 'success',
           html: `
               <strong>주문 번호:</strong> ${response.orderId}
@@ -280,7 +279,6 @@ function Home() {
               <strong>커피 이름:</strong> ${response.coffeeName}
               <br />
               <strong>수량:</strong> ${response.qty}개<br />
-              주문 성공!
           `,
           confirmButtonText: 'OK!',
         })
@@ -293,7 +291,6 @@ function Home() {
         })
       })
   }
-
   return (
     <Wrapper>
       {isLoading ? (

@@ -22,9 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 
 @Slf4j
@@ -73,5 +71,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         res.addHeader("token", token);
         res.addHeader("userId", userDetails.getUserId());
+
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("token", token);
+        responseBody.put("userId", userDetails.getUserId());
+
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(new ObjectMapper().writeValueAsString(responseBody));
     }
 }

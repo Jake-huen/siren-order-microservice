@@ -76,7 +76,7 @@ const Circle = styled(motion.span)`
   left: 0;
   right: 0;
   margin: 0 auto;
-  background-color: ${props => props.theme.red};
+  background-color: lightgreen;
 `
 
 const Input = styled(motion.input)`
@@ -117,8 +117,10 @@ const navVariants = {
 function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const homeMatch = useRouteMatch('/')
-  const coffeeMatch = useRouteMatch('/coffee')
   const adminMatch = useRouteMatch('/admin')
+  const loginMatch = useRouteMatch('/login')
+  const signupMatch = useRouteMatch('/signup')
+  const myPageMatch = useRouteMatch('/myPage')
   const inputAnimation = useAnimation()
   const navAnimation = useAnimation()
   const { scrollY, scrollYProgress } = useScroll()
@@ -180,17 +182,27 @@ function Header() {
         <Items>
           <Item>
             <Link to="/">
-              Home {homeMatch?.isExact && <Circle layoutId="circle" />}
-            </Link>
-          </Item>
-          <Item>
-            <Link to="/coffee">
-              Coffee Menus {coffeeMatch && <Circle layoutId="circle" />}
+              홈 {homeMatch?.isExact && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
             <Link to="/admin">
-              Admin {adminMatch && <Circle layoutId="circle" />}
+              주문 관리 {adminMatch && <Circle layoutId="circle" />}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/login">
+              로그인 {loginMatch && <Circle layoutId="circle" />}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/signup">
+              회원가입 {signupMatch && <Circle layoutId="circle" />}
+            </Link>
+          </Item>
+          <Item>
+            <Link to="/myPage">
+              마이페이지 {myPageMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
         </Items>
