@@ -187,7 +187,7 @@ function Header() {
           </Item>
           <Item>
             <Link to="/admin">
-              주문 관리 {adminMatch && <Circle layoutId="circle" />}
+              주문 상태 확인 {adminMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
           <Item>
@@ -202,7 +202,7 @@ function Header() {
           </Item>
           <Item>
             <Link to="/myPage">
-              마이페이지 {myPageMatch && <Circle layoutId="circle" />}
+              관리자 {myPageMatch && <Circle layoutId="circle" />}
             </Link>
           </Item>
         </Items>

@@ -9,6 +9,8 @@ import {
   useHistory,
   useRouteMatch,
 } from 'react-router-dom/cjs/react-router-dom.min'
+import { getUserIdFromLocalStorage } from '../api'
+
 const Wrapper = styled.div`
   background-color: black;
 `
@@ -227,6 +229,7 @@ function Home() {
     ['coffees', 'coffeeName', 'coffeeImage'],
     () => getCoffees()
   )
+  const { userId } = useQuery(() => getUserIdFromLocalStorage())
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
@@ -263,11 +266,7 @@ function Home() {
       alert('수량은 1 이상이어야 합니다.')
       return
     }
-    submitOrder(
-      'cbd12de0-4cd5-45af-9e10-db38f8833a53',
-      coffeeName,
-      quantityValue
-    )
+    submitOrder(userId, coffeeName, quantityValue)
       .then(response => {
         console.log('Order response: ', response)
         Swal.fire({

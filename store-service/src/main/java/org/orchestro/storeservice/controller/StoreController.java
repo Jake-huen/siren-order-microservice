@@ -69,13 +69,13 @@ public class StoreController {
     }
 
     @GetMapping("/health_check")
-    public String status() {
-        return String.format("It's Working in Store Service"
+    public ResponseEntity<String> status() {
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("It's Working in Store Service"
                 + ", \nport(local.server.port)=" + env.getProperty("local.server.port")
                 + ", \nport(server.port)=" + env.getProperty("server.port")
                 + ", \ntoken secret=" + env.getProperty("token.secret")
                 + ", \ntoken expiration time =" + env.getProperty("token.expiration_time")
-                + ", \nGreeting message =" + env.getProperty("greeting"));
+                + ", \nGreeting message =" + env.getProperty("greeting")));
     }
 
 }

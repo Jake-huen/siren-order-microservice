@@ -1,22 +1,61 @@
 const BASE_PATH = 'http://172.10.40.174:30010'
 
-export function getCoffees() {
-  return fetch(`${BASE_PATH}/store-service/coffee`).then(response =>
-    response.json()
-  )
+export function getUserIdFromLocalStorage() {
+  // 로컬 스토리지에서 recoil-persist 키의 값을 가져옴
+  const recoilPersistData = localStorage.getItem('recoil-persist')
+  if (!recoilPersistData) {
+    return null // recoil-persist 키가 없는 경우 null 반환
+  }
+
+  // recoil-persist 값이 JSON 형식이므로 파싱하여 객체로 변환
+  const parsedData = JSON.parse(recoilPersistData)
+
+  // UserId를 가져옴
+  const userId = parsedData.UserId
+  return userId
 }
 
+export function getTokenFromLocalStorage() {
+  // 로컬 스토리지에서 recoil-persist 키의 값을 가져옴
+  const recoilPersistData = localStorage.getItem('recoil-persist')
+  if (!recoilPersistData) {
+    return null // recoil-persist 키가 없는 경우 null 반환
+  }
+
+  // recoil-persist 값이 JSON 형식이므로 파싱하여 객체로 변환
+  const parsedData = JSON.parse(recoilPersistData)
+
+  const token = parsedData.TokenAtom
+  return token
+}
+
+// 커피 조회 Token 필요
+export function getCoffees() {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/store-service/coffee`, {
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => response.json())
+}
+
+// Token 필요
 export function getCoffeeMenuByName(coffeeName) {
-  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`).then(
-    response => response.json()
-  )
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`, {
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => response.json())
 }
 
 export function submitOrder(userId, coffeeName, qty) {
+  const token = getTokenFromLocalStorage()
   return fetch(`${BASE_PATH}/counter-service/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token,
     },
     body: JSON.stringify({
       userId,
@@ -45,6 +84,29 @@ export function signup(email, name, pwd) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, name, pwd }),
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export function userServiceHealthCheck() {
+  return fetch(`${BASE_PATH}/user-service/health_check`)
+}
+
+export function counterServiceHealthCheck() {
+  return fetch(`${BASE_PATH}/counter-service/health_check`)
+}
+
+export function storeServiceHealthCheck() {
+  return fetch(`${BASE_PATH}/store-service/health_check`)
+}
+
+export function getAllUsers() {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/user-service/users`, {
+    headers: {
+      Authorization: token,
+    },
   }).then(response => {
     return response.json()
   })
