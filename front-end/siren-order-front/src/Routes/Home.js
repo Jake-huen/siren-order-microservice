@@ -4,6 +4,7 @@ import { styled } from 'styled-components'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { makeImagePath } from '../utils'
 import { useEffect, useState } from 'react'
+import Swal from 'sweetalert2'
 import {
   useHistory,
   useRouteMatch,
@@ -226,6 +227,7 @@ function Home() {
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const increaseIndex = () => {
     if (data) {
       if (leaving) return
@@ -252,7 +254,6 @@ function Home() {
     const newQuantity = parseInt(e.target.value)
     setQuantity(newQuantity)
   }
-
   const handleSubmit = coffeeName => {
     const quantityValue = parseInt(quantity)
     setQuantity(1)
@@ -267,11 +268,29 @@ function Home() {
     )
       .then(response => {
         console.log('Order response: ', response)
+        Swal.fire({
+          title: '주문 성공!!!',
+          icon: 'success',
+          html: `
+              <strong>주문 번호:</strong> ${response.orderId}
+              <br />
+              <strong>커피 이름:</strong> ${response.coffeeName}
+              <br />
+              <strong>수량:</strong> ${response.qty}개<br />
+              주문 성공!
+          `,
+          confirmButtonText: 'OK!',
+        })
       })
       .catch(error => {
         console.error('Order error: ', error)
+        Swal.fire({
+          title: '주문 실패!!!',
+          icon: 'error',
+        })
       })
   }
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -362,7 +381,6 @@ function Home() {
                             가격 : {clickedCoffee.unitPrice} 원
                           </PriceDisplay>
                         </div>
-
                         <OrderButton type="submit">주문하기</OrderButton>
                       </OrderForm>
                     </>
