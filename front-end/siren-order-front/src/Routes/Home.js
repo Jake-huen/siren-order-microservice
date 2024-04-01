@@ -242,8 +242,9 @@ function Home() {
     history.push('/')
   }
   const clickedCoffee =
-    bigCoffeeMatch?.params.coffeeId &&
-    data.find(coffee => coffee.coffeeId === bigCoffeeMatch.params.coffeeId)
+    Array.isArray(data) && bigCoffeeMatch?.params.coffeeId
+      ? data.find(coffee => coffee.coffeeId === bigCoffeeMatch.params.coffeeId)
+      : undefined
 
   const [quantity, setQuantity] = useState(1)
 
