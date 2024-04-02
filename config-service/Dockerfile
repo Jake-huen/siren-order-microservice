@@ -1,8 +1,6 @@
 FROM openjdk:17-ea-11-jdk-slim
 EXPOSE 8888
-VOLUME /tmp
-RUN apt-get update && apt-get install -y curl
-# COPY apiEncryptionKey.jks apiEncryptionKey.jks
+COPY apiEncryptionKey.jks apiEncryptionKey.jks
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 ENV SPRING_RABBITMQ_HOST=rabbitmq

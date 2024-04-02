@@ -179,10 +179,10 @@ function MyPage() {
         <Heading>[ Prometheus - Grafana ]</Heading>
       </StyledLink>
       <StyledLink
-        href="https://github.com/Jake-huen/spring-microservice"
+        href="https://github.com/Jake-huen/siren-order-config"
         target="_blank"
       >
-        <Heading>[ Github 주소 ]</Heading>
+        <Heading>[ Git Config 주소 ]</Heading>
       </StyledLink>
     </Container>
   )
