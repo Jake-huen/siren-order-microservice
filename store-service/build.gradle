@@ -52,6 +52,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
+    // micrometer, prometheus
+    implementation 'io.github.openfeign:feign-micrometer'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     testImplementation 'org.springframework.kafka:spring-kafka-test'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -60,6 +64,8 @@ dependencies {
     // database
     runtimeOnly 'com.h2database:h2'
     // runtimeOnly 'com.mysql:mysql-connector-j'
+
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
 }
 
 dependencyManagement {

@@ -39,7 +39,12 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 	// micrometer, prometheus
 	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
 	implementation 'org.projectlombok:lombok'
+
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webflux-ui', version: '2.2.0'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

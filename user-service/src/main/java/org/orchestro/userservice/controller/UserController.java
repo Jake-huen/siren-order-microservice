@@ -1,5 +1,6 @@
 package org.orchestro.userservice.controller;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -28,6 +29,7 @@ public class UserController {
     private final Environment env;
 
     @GetMapping("/health_check")
+    @Timed(value = "users.status", longTask = true)
     public ResponseEntity<String> status() {
         return ResponseEntity.status(HttpStatus.OK).body(String.format("It's Working in User Service"
                 + ", \nport(local.server.port)=" + env.getProperty("local.server.port")
@@ -44,6 +46,7 @@ public class UserController {
 
     // 전체 사용자 조회
     @GetMapping("/users")
+    @Timed(value = "users.getAllUsers", longTask = true)
     public ResponseEntity<List<ResponseUser>> getAllUsers() {
         Iterable<UserEntity> userList = userService.getUserByAll();
         List<ResponseUser> result = new ArrayList<>();
@@ -56,6 +59,7 @@ public class UserController {
 
     // 회원가입
     @PostMapping("/users")
+    @Timed(value = "users.createUser", longTask = true)
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -70,6 +74,7 @@ public class UserController {
 
     // 사용자 정보, 커피 주문 내역 조회
     @GetMapping("/users/{userId}")
+    @Timed(value = "users.getCounterContentsAndUser", longTask = true)
     public ResponseEntity<ResponseUser> getUserByUserId(@PathVariable String userId) {
         UserDto userDto = userService.getUserByUserId(userId);
         ResponseUser result = new ModelMapper().map(userDto, ResponseUser.class);

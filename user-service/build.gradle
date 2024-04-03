@@ -55,10 +55,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
-    implementation 'io.github.openfeign:feign-micrometer'
-
     // micrometer, prometheus
+    implementation 'io.github.openfeign:feign-micrometer'
     implementation 'io.micrometer:micrometer-registry-prometheus'
+
     // config-service
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
@@ -70,6 +70,10 @@ dependencies {
     // mysql
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'com.h2database:h2'
+
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.2.0'
+
+
 }
 
 dependencyManagement {
