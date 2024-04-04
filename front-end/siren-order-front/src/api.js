@@ -1,35 +1,29 @@
 const BASE_PATH = 'http://172.10.40.174:30010'
 
 export function getUserIdFromLocalStorage() {
-  // 로컬 스토리지에서 recoil-persist 키의 값을 가져옴
   const recoilPersistData = localStorage.getItem('recoil-persist')
   if (!recoilPersistData) {
-    return null // recoil-persist 키가 없는 경우 null 반환
+    return null
   }
 
-  // recoil-persist 값이 JSON 형식이므로 파싱하여 객체로 변환
   const parsedData = JSON.parse(recoilPersistData)
-
-  // UserId를 가져옴
   const userId = parsedData.UserId
   return userId
 }
 
 export function getTokenFromLocalStorage() {
-  // 로컬 스토리지에서 recoil-persist 키의 값을 가져옴
   const recoilPersistData = localStorage.getItem('recoil-persist')
   if (!recoilPersistData) {
-    return null // recoil-persist 키가 없는 경우 null 반환
+    return null
   }
 
-  // recoil-persist 값이 JSON 형식이므로 파싱하여 객체로 변환
   const parsedData = JSON.parse(recoilPersistData)
 
   const token = parsedData.TokenAtom
   return token
 }
 
-// 커피 조회 Token 필요
+// 커피 조회
 export function getCoffees() {
   const token = getTokenFromLocalStorage()
   return fetch(`${BASE_PATH}/store-service/coffee`, {
@@ -39,7 +33,7 @@ export function getCoffees() {
   }).then(response => response.json())
 }
 
-// Token 필요
+// 커피 메뉴 확인
 export function getCoffeeMenuByName(coffeeName) {
   const token = getTokenFromLocalStorage()
   return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`, {
@@ -90,20 +84,68 @@ export function signup(email, name, pwd) {
 }
 
 export function userServiceHealthCheck() {
-  return fetch(`${BASE_PATH}/user-service/health_check`)
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/user-service/health_check`, {
+    headers: {
+      Authorization: token,
+    },
+  })
 }
 
 export function counterServiceHealthCheck() {
-  return fetch(`${BASE_PATH}/counter-service/health_check`)
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/counter-service/health_check`, {
+    headers: {
+      Authorization: token,
+    },
+  })
 }
 
 export function storeServiceHealthCheck() {
-  return fetch(`${BASE_PATH}/store-service/health_check`)
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/store-service/health_check`, {
+    headers: {
+      Authorization: token,
+    },
+  })
 }
 
 export function getAllUsers() {
   const token = getTokenFromLocalStorage()
   return fetch(`${BASE_PATH}/user-service/users`, {
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export function getUserOrders(userId) {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/counter-service/${userId}/orders`, {
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export function getSuccessOrders() {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/counter-service/orders-success`, {
+    headers: {
+      Authorization: token,
+    },
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export function getFailedOrders() {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/counter-service/orders-failed`, {
     headers: {
       Authorization: token,
     },
