@@ -56,7 +56,7 @@ public class WebSecurity {
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("**/actuator/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll() // 회원가입
                         .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
