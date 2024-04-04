@@ -10,6 +10,8 @@ import {
   useRouteMatch,
 } from 'react-router-dom/cjs/react-router-dom.min'
 import { getUserIdFromLocalStorage } from '../api'
+import { useRecoilValue } from 'recoil'
+import { UserIdAtom } from '../recoil/TokenAtom'
 
 const Wrapper = styled.div`
   background-color: black;
@@ -229,7 +231,6 @@ function Home() {
     ['coffees', 'coffeeName', 'coffeeImage'],
     () => getCoffees()
   )
-  const { userId } = useQuery(() => getUserIdFromLocalStorage())
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
@@ -248,6 +249,8 @@ function Home() {
   const onOverlayClick = () => {
     history.push('/')
   }
+  const userId = useRecoilValue(UserIdAtom)
+
   const clickedCoffee =
     Array.isArray(data) && bigCoffeeMatch?.params.coffeeId
       ? data.find(coffee => coffee.coffeeId === bigCoffeeMatch.params.coffeeId)

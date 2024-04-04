@@ -175,8 +175,11 @@ function MyPage() {
       <StyledLink href="http://172.10.40.152:15672/#/" target="_blank">
         <Heading>[ RabbitMQ 서버 ]</Heading>
       </StyledLink>
-      <StyledLink href="/prometheus-grafana" target="_blank">
-        <Heading>[ Prometheus - Grafana ]</Heading>
+      <StyledLink href="http://172.10.40.152:9090/" target="_blank">
+        <Heading>[ Prometheus Dashboard ]</Heading>
+      </StyledLink>
+      <StyledLink href="http://172.10.40.152:3000/dashboards" target="_blank">
+        <Heading>[ Grafana Dashboard ]</Heading>
       </StyledLink>
       <StyledLink
         href="https://github.com/Jake-huen/siren-order-config"

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { useRecoilState } from 'recoil'
-import { userState } from '../recoil/TokenAtom'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import { UserIdAtom, TokenAtom } from '../recoil/TokenAtom'
 import { signup } from '../api'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min'
 
@@ -66,10 +66,14 @@ function SignupPage() {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const setUserId = useSetRecoilState(UserIdAtom)
+  const setAccessToken = useSetRecoilState(TokenAtom)
   const history = useHistory()
   const handleSignup = () => {
     // 회원가입 로직
-    signup(username, email, password).then(({ email, username, password }) => {
+    signup(email, username, password).then(({ email, username, password }) => {
+      setAccessToken('')
+      setUserId('')
       history.push(`/`)
     })
   }
