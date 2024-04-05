@@ -156,7 +156,6 @@ export function getFailedOrders() {
 
 // 메뉴 수정
 export function editMenu({
-  coffeeId,
   coffeeName,
   unitPrice,
   coffeeBrewTime,
@@ -164,8 +163,8 @@ export function editMenu({
   coffeeDescription,
 }) {
   const token = getTokenFromLocalStorage()
-  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeId}`, {
-    method: 'POST',
+  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
@@ -191,7 +190,7 @@ export function newMenu({
   coffeeDescription,
 }) {
   const token = getTokenFromLocalStorage()
-  return fetch(`${BASE_PATH}/counter-service/coffee`, {
+  return fetch(`${BASE_PATH}/store-service/coffee`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -204,5 +203,16 @@ export function newMenu({
       coffeeImage,
       coffeeDescription,
     }),
+  }).then(response => response.json())
+}
+
+export function deleteMenu({ coffeeName }) {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeName}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
   }).then(response => response.json())
 }

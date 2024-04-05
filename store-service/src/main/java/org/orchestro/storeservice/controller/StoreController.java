@@ -58,20 +58,20 @@ public class StoreController {
     }
 
     // 커피 메뉴 수정
-    @PutMapping("/coffee/{coffeeId}")
+    @PutMapping("/coffee/{coffeeName}")
     @Timed(value = "store.coffeeUpdate", longTask = true)
-    public ResponseEntity<ResponseCoffeeDto> updateCoffeeMenu(@PathVariable("coffeeId") String coffeeId, @RequestBody CoffeeEditDto coffeeEditDto) {
-        CoffeeEntity coffeeEntity = storeService.updateCoffee(coffeeId, coffeeEditDto);
+    public ResponseEntity<ResponseCoffeeDto> updateCoffeeMenu(@PathVariable("coffeeName") String coffeeName, @RequestBody CoffeeEditDto coffeeEditDto) {
+        CoffeeEntity coffeeEntity = storeService.updateCoffee(coffeeName, coffeeEditDto);
         ResponseCoffeeDto result = new ModelMapper().map(coffeeEntity, ResponseCoffeeDto.class);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     // 커피 메뉴 삭제
-    @DeleteMapping("/coffee/{coffeeId}")
+    @DeleteMapping("/coffee/{coffeeName}")
     @Timed(value = "store.coffeeDelete", longTask = true)
-    public ResponseEntity<String> deleteCoffeeMenu(@PathVariable("coffeeId") String coffeeId) {
-        storeService.deleteCoffee(coffeeId);
-        return ResponseEntity.status(HttpStatus.OK).body(coffeeId + "가 성공적으로 삭제되었습니다.");
+    public ResponseEntity<String> deleteCoffeeMenu(@PathVariable("coffeeName") String coffeeName) {
+        storeService.deleteCoffee(coffeeName);
+        return ResponseEntity.status(HttpStatus.OK).body(coffeeName + "가 성공적으로 삭제되었습니다.");
     }
 
     @GetMapping("/health_check")

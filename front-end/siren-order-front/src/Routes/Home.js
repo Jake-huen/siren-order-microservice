@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { getCoffees, submitOrder } from '../api'
+import { deleteMenu, getCoffees, submitOrder } from '../api'
 import { styled } from 'styled-components'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
 import { makeImagePath } from '../utils'
@@ -154,7 +154,8 @@ const BigCover = styled.div`
   width: 100%;
   background-size: cover;
   background-position: center center;
-  height: 250px;
+  height: ${({ minHeight }) => `${minHeight}px`};
+  overflow-y: auto;
 `
 
 const BigTitle = styled.h2`
@@ -167,6 +168,7 @@ const BigTitle = styled.h2`
 
 const BigOverView = styled.p`
   padding: 20px;
+  overflow-y: auto;
   color: ${props => props.theme.white.lighter};
 `
 
@@ -232,6 +234,27 @@ function Home() {
     ['coffees', 'coffeeName', 'coffeeImage'],
     () => getCoffees()
   )
+  useEffect(() => {
+    getCoffees()
+  }, [data])
+  const [minHeight, setMinHeight] = useState(250)
+  const handleScroll = () => {
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop
+    if (scrollTop > 0) {
+      // 스크롤이 발생하면 minHeight를 40px로 변경
+      setMinHeight(100)
+    } else {
+      // 스크롤이 맨 위에 도달하면 다시 250px로 변경
+      setMinHeight(250)
+    }
+  }
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
   const [index, setIndex] = useState(0)
   const [leaving, setLeaving] = useState(false)
   const toggleLeaving = () => setLeaving(prev => !prev)
@@ -306,7 +329,10 @@ function Home() {
   }
 
   // 해당 메뉴 삭제
-  const handleDeleteMenu = () => {}
+  const handleDeleteMenu = coffeeName => {
+    console.log(coffeeName)
+    deleteMenu({ coffeeName })
+  }
 
   const ActionButtons = styled.div`
     display: flex;
@@ -391,6 +417,7 @@ function Home() {
                   {clickedCoffee && (
                     <>
                       <BigCover
+                        minHeight={minHeight}
                         style={{
                           backgroundImage: `linear-gradient(to top, black, transparent), url(${makeImagePath(
                             clickedCoffee.coffeeImage
@@ -441,13 +468,9 @@ function Home() {
                           해당 메뉴 수정
                         </ActionButton>
                         <ActionButton
-                          onClick={handleNewMenu}
-                          hoverBgColor="#2196F3"
-                        >
-                          새로운 메뉴 등록
-                        </ActionButton>
-                        <ActionButton
-                          onClick={handleDeleteMenu}
+                          onClick={() =>
+                            handleDeleteMenu(clickedCoffee.coffeeName)
+                          }
                           hoverBgColor="#f44336"
                         >
                           해당 메뉴 삭제

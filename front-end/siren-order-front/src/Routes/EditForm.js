@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { editMenu } from '../api'
 
 const FormContainer = styled.div`
-  margin-top: 20px;
+  margin-top: -20px;
   margin-left: 30px;
   margin-right: 30px;
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 5px;
 `
 
 const FormGroup = styled.div`
@@ -14,23 +15,23 @@ const FormGroup = styled.div`
 `
 
 const FormLabel = styled.label`
-  display: block;
+  display: flex;
   margin-bottom: 5px;
 `
 
 const FormInput = styled.input`
   width: 100%;
   padding: 8px;
-  font-size: 16px;
+  font-size: 12px;
 `
 
 const FormButton = styled.button`
   display: block;
   width: 100%;
-  padding: 10px;
-  color: white;
+  padding: 5px;
+  margin-bottom: 10px;
+
   font-size: 16px;
-  border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
@@ -59,8 +60,14 @@ const EditForm = ({ coffee, onCancel }) => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    // 여기서 수정된 데이터를 서버로 보내어 처리하는 로직 추가
     console.log('수정된 데이터:', formData)
+    editMenu(
+      formData.coffeeName,
+      formData.unitPrice,
+      formData.coffeeBrewTime,
+      formData.coffeeImage,
+      formData.coffeeDescription
+    )
   }
 
   return (
@@ -94,16 +101,6 @@ const EditForm = ({ coffee, onCancel }) => {
             id="coffeeBrewTime"
             name="coffeeBrewTime"
             value={formData.coffeeBrewTime}
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <FormLabel htmlFor="coffeeImage">이미지 URL</FormLabel>
-          <FormInput
-            type="text"
-            id="coffeeImage"
-            name="coffeeImage"
-            value={formData.coffeeImage}
             onChange={handleChange}
           />
         </FormGroup>

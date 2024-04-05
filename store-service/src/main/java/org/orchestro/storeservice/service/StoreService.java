@@ -40,15 +40,15 @@ public class StoreService {
 
 
     @Transactional
-    public CoffeeEntity updateCoffee(String coffeeId, CoffeeEditDto coffeeEditDto) {
-        CoffeeEntity coffeeEntity = coffeeRepository.findByCoffeeId(coffeeId).orElseThrow(() -> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + coffeeId));
+    public CoffeeEntity updateCoffee(String coffeeName, CoffeeEditDto coffeeEditDto) {
+        CoffeeEntity coffeeEntity = coffeeRepository.findByCoffeeName(coffeeName).orElseThrow(() -> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + coffeeName));
         coffeeEntity.update(coffeeEditDto);
         return coffeeEntity;
     }
 
     @Transactional
-    public void deleteCoffee(String coffeeId) {
-        CoffeeEntity coffeeEntity = coffeeRepository.findByCoffeeId(coffeeId).orElseThrow(() -> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + coffeeId));
+    public void deleteCoffee(String coffeeName) {
+        CoffeeEntity coffeeEntity = coffeeRepository.findByCoffeeName(coffeeName).orElseThrow(() -> new IllegalArgumentException("해당하는 커피 ID가 없습니다. ID : " + coffeeName));
         coffeeRepository.delete(coffeeEntity);
     }
 }
