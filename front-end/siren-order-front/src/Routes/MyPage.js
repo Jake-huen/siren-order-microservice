@@ -157,6 +157,12 @@ function MyPage() {
           </tbody>
         </Table>
       )}
+      <StyledLink href="http://172.10.40.174:30010/" target="_blank">
+        <Heading>[ Swagger 문서 ]</Heading>
+      </StyledLink>
+      <StyledLink href="http://172.10.40.174:30007" target="_blank">
+        <Heading>[ Eureka 서버 ]</Heading>
+      </StyledLink>
       <StyledLink href="http://172.10.40.174:30100/zipkin/" target="_blank">
         <Heading>[ ZIPKIN 서버 ]</Heading>
       </StyledLink>

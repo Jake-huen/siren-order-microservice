@@ -153,3 +153,56 @@ export function getFailedOrders() {
     return response.json()
   })
 }
+
+// 메뉴 수정
+export function editMenu({
+  coffeeId,
+  coffeeName,
+  unitPrice,
+  coffeeBrewTime,
+  coffeeImage,
+  coffeeDescription,
+}) {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/store-service/coffee/${coffeeId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      coffeeName,
+      unitPrice,
+      coffeeBrewTime,
+      coffeeImage,
+      coffeeDescription,
+    }),
+  }).then(response => response.json())
+}
+
+// 메뉴 등록
+export function newMenu({
+  coffeeId,
+  coffeeName,
+  stock,
+  unitPrice,
+  coffeeBrewTime,
+  coffeeImage,
+  coffeeDescription,
+}) {
+  const token = getTokenFromLocalStorage()
+  return fetch(`${BASE_PATH}/counter-service/coffee`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      coffeeName,
+      unitPrice,
+      coffeeBrewTime,
+      coffeeImage,
+      coffeeDescription,
+    }),
+  }).then(response => response.json())
+}

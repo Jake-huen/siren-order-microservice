@@ -12,6 +12,7 @@ import {
 import { getUserIdFromLocalStorage } from '../api'
 import { useRecoilValue } from 'recoil'
 import { UserIdAtom } from '../recoil/TokenAtom'
+import EditForm from './EditForm'
 
 const Wrapper = styled.div`
   background-color: black;
@@ -293,6 +294,43 @@ function Home() {
         })
       })
   }
+  const [showEditForm, setShowEditForm] = useState(false)
+  // 해당 메뉴 수정
+  const handleEditMenu = () => {
+    setShowEditForm(true)
+  }
+
+  // 새로운 메뉴 등록
+  const handleNewMenu = () => {
+    setShowEditForm(true)
+  }
+
+  // 해당 메뉴 삭제
+  const handleDeleteMenu = () => {}
+
+  const ActionButtons = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+    border: 1px solid white;
+    padding: 40px;
+  `
+
+  const ActionButton = styled.button`
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: ${props => props.hoverBgColor};
+    }
+  `
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -364,27 +402,57 @@ function Home() {
                       <BigOverView>
                         상세 정보 : {clickedCoffee.coffeeDescription}
                       </BigOverView>
-                      <OrderForm
-                        onSubmit={e => {
-                          e.preventDefault()
-                          handleSubmit(clickedCoffee.coffeeName)
-                        }}
-                      >
-                        <RemainingStock>
-                          남은 수량 : {clickedCoffee.stock} 개
-                        </RemainingStock>
-                        <div>
-                          <QuantityInput
-                            type="number"
-                            value={quantity}
-                            onChange={handleQuantityChange}
-                          ></QuantityInput>
-                          <PriceDisplay>
-                            가격 : {clickedCoffee.unitPrice} 원
-                          </PriceDisplay>
-                        </div>
-                        <OrderButton type="submit">주문하기</OrderButton>
-                      </OrderForm>
+                      {showEditForm ? ( // 수정 폼 보이기 여부에 따라 폼을 표시
+                        <>
+                          {/* 수정 폼 컴포넌트 */}
+                          <EditForm
+                            coffee={clickedCoffee}
+                            onCancel={() => setShowEditForm(false)} // 폼 취소 시 폼 숨기기
+                          />
+                        </>
+                      ) : (
+                        <OrderForm
+                          onSubmit={e => {
+                            e.preventDefault()
+                            handleSubmit(clickedCoffee.coffeeName)
+                          }}
+                        >
+                          <RemainingStock>
+                            남은 수량 : {clickedCoffee.stock} 개
+                          </RemainingStock>
+                          <div>
+                            <QuantityInput
+                              type="number"
+                              value={quantity}
+                              onChange={handleQuantityChange}
+                            ></QuantityInput>
+                            <PriceDisplay>
+                              가격 : {clickedCoffee.unitPrice} 원
+                            </PriceDisplay>
+                          </div>
+                          <OrderButton type="submit">주문하기</OrderButton>
+                        </OrderForm>
+                      )}
+                      <ActionButtons>
+                        <ActionButton
+                          onClick={handleEditMenu}
+                          hoverBgColor="#4CAF50"
+                        >
+                          해당 메뉴 수정
+                        </ActionButton>
+                        <ActionButton
+                          onClick={handleNewMenu}
+                          hoverBgColor="#2196F3"
+                        >
+                          새로운 메뉴 등록
+                        </ActionButton>
+                        <ActionButton
+                          onClick={handleDeleteMenu}
+                          hoverBgColor="#f44336"
+                        >
+                          해당 메뉴 삭제
+                        </ActionButton>
+                      </ActionButtons>
                     </>
                   )}
                 </BigCofee>

@@ -41,6 +41,11 @@ const Error = styled.div`
   text-align: center;
 `
 
+const Title = styled.h2`
+  color: darkgray;
+  font-size: 40px;
+`
+
 function Admin() {
   const userId = useRecoilValue(UserIdAtom)
   const {
@@ -71,7 +76,7 @@ function Admin() {
 
   return (
     <Container>
-      <h2>Success Orders</h2>
+      <Title>Success Orders</Title>
       <OrderList>
         {successOrders?.map(order => (
           <OrderItem key={order.orderId}>
@@ -80,7 +85,7 @@ function Admin() {
         ))}
       </OrderList>
 
-      <h2>Failed Orders</h2>
+      <Title>Failed Orders</Title>
       <OrderList>
         {failedOrders?.map(order => (
           <OrderItem key={order.orderId}>
@@ -89,7 +94,7 @@ function Admin() {
         ))}
       </OrderList>
 
-      <h2>로그인 사용자 주문 상태</h2>
+      <Title>로그인 사용자 주문 상태</Title>
       <OrderList>
         {userOrders?.map(order => (
           <UserOrder key={order.orderId} product={order} />

@@ -62,6 +62,10 @@ public class WebSecurity {
                         .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/config-check")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/docs/*")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
+                        .requestMatchers(
+                                "/swagger-ui/**", "/webjars/swagger-ui/**"
+                        ).permitAll()
                         .requestMatchers("/**").access(
                                 new WebExpressionAuthorizationManager(
                                         "hasIpAddress('10.0.0.0/8') or hasIpAddress('127.0.0.1') or hasIpAddress('192.168.1.218')")) // TODO : 10.96.0.0/12
