@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { QueryClient, useQuery } from 'react-query'
 import { deleteMenu, getCoffees, submitOrder } from '../api'
 import { styled } from 'styled-components'
 import { motion, AnimatePresence, useScroll } from 'framer-motion'
@@ -234,9 +234,7 @@ function Home() {
     ['coffees', 'coffeeName', 'coffeeImage'],
     () => getCoffees()
   )
-  useEffect(() => {
-    getCoffees()
-  }, [data])
+
   const [minHeight, setMinHeight] = useState(250)
   const handleScroll = () => {
     const scrollTop =
@@ -332,6 +330,12 @@ function Home() {
   const handleDeleteMenu = coffeeName => {
     console.log(coffeeName)
     deleteMenu({ coffeeName })
+      .then(() => {
+        QueryClient.invalidateQueries(['coffees', 'coffeeName', 'coffeeImage']) // 데이터를 다시 불러오도록 쿼리를 무효화합니다.
+      })
+      .catch(error => {
+        alert('change')
+      })
   }
 
   const ActionButtons = styled.div`
