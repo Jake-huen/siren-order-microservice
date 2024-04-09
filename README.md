@@ -2,7 +2,8 @@
 
 ## 전체 아키텍처 구성
 
-![image](https://github.com/Jake-huen/spring-microservice/assets/57055730/094a5d78-4622-47cb-a586-ac0f2d1d7cdb)
+![image](https://github.com/Jake-huen/siren-order-microservice/assets/57055730/f2e84fa1-a03a-4ad4-b184-af294a68c4b4)
+
 
 ## 배포 계획
 
