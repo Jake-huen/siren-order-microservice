@@ -7,7 +7,8 @@
 
 ## 배포 계획
 
-![image](https://github.com/Jake-huen/spring-microservice/assets/57055730/43ee4535-a942-47af-903a-c7539e856d68)
+![image](https://github.com/Jake-huen/siren-order-microservice/assets/57055730/0c869979-8372-4597-9d96-0e38b959f14c)
+
 
 
 ## MSA 기술 스택
