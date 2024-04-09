@@ -13,29 +13,39 @@
 
 ## MSA 기술 스택
 
+### API Gateway
+- Spring Cloud Gateway
+
+### Service Discovery
+- Spring Cloud Netflix Eureka
+
 ### 마이크로 서비스 개발
-- Spring Boot
-- Spring Data JPA
-- Spring Security, JWT
+- Spring MVC, JPA : User-service, Counter-service, Store-service
+- Spring Security, JWT : Config-service
 
 ### Message Bus, 데이터 동기화
-- Kafka - 데이터베이스 동기화
-- RabbitMQ - Spring Config 설정 Message Bus
+- Kafka, Zookeeper : 서비스 간 메시지 produce, consume
+- Kafka UI : Kafka 동작 시각화
+- RabbitMQ : Spring Config 설정 Message Bus
 
 ### Container
-- Docker
+- Docker : RabbitMQ, Prometheus, Grafana
+- Docker-Compose : Kafka, Zookeeper, Kafka-UI
 - Kubernetes
+  - Deployment : apigateway-service, config-service, user-service, counter-service, store-service, frontend, mysql, zipkin
+  - Service
+  	- ClusterIP : user-service, counter-service, store-service
+  	- NodePort : apigateway-service, config-service, discovery-service, frontend, mysql-svc, zipkin
+  - Persistent Volume : MySQL 
 
 ### API Gateway
 - Spring Cloud Gateway
 
 ### Database
-- H2 Database
-- MySQL(MariaDB)
+- H2 Database : User-service, Store-service
+- MySQL + PV, PVC : Counter-service
 
-### Service Mesh
-- 모니터링
-
+### MSA 구성
 - 구성
 	- Spring Cloud Eureka
 
@@ -46,7 +56,7 @@
 
 - Configuration
 	- Spring Cloud Config
-		- Git
+		- Private Git
 
 - 서비스간 통신
 	- FeignClient
