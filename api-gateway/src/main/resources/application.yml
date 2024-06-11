@@ -15,11 +15,11 @@ eureka:
 spring:
   application:
     name: apigateway-service
-  rabbitmq:
-    host: 172.10.40.152
-    port: 5672
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: 172.10.40.152
+#    port: 5672
+#    username: guest
+#    password: guest
   config:
     import: classpath:/bootstrap.yml
 

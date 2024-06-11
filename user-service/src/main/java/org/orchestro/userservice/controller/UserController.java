@@ -8,8 +8,6 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.orchestro.userservice.dto.UserDto;
 import org.orchestro.userservice.jpa.UserEntity;
 import org.orchestro.userservice.service.UserService;
-import org.orchestro.userservice.vo.JwtResponse;
-import org.orchestro.userservice.vo.RequestLogin;
 import org.orchestro.userservice.vo.RequestUser;
 import org.orchestro.userservice.vo.ResponseUser;
 import org.springframework.core.env.Environment;

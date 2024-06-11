@@ -7,3 +7,5 @@ config-service/src/main/resources/bootstrap.yml
 config-service/src/main/resources/bootstrap.yml
 config-service/src/main/resources/bootstrap.yml
 config-service/src/main/resources/bootstrap.yml
+/coupon-service/.data
+/coupon-service/gradle
