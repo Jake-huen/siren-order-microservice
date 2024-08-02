@@ -2,6 +2,8 @@
 
 Spring Cloud와 쿠버네티스를 이용한 '커피 사이렌 오더' 마이크로서비스 프로젝트
 
+https://www.notion.so/MSA-0872b4efb7204ceb9b5dc3193b4c5618
+
 ## 전체 아키텍처 구성
 
 ![image](https://github.com/Jake-huen/siren-order-microservice/assets/57055730/f2e84fa1-a03a-4ad4-b184-af294a68c4b4)
